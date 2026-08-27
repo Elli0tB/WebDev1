@@ -1,0 +1,30 @@
+Day 1(08/20/2026): 
+    Intoductions, check out Brandon Sanderson(mistborn) for good fantasy also maybe look at The Beyonders
+    probably oral final so keep up journal and pick the things that I like in this class 
+Day 2(08/25/2026): 
+    Class canceled
+Day 3(08/27/2026): 
+    Slay the spire is a wonderful game.
+    Why?: (should we learn this)
+        -If claude or AI messes up then youll know how to fix it. 
+        -Cool stuff is custom.
+        -Direct control of implimentaiton.
+        -It doesen't know excactly what you want. 
+        -At leaset need to to know what you want for an AI to make it for you. 
+        -Cant make something compleatly origional
+        -Can be hard to scale the AI can struggle to understand the code and hallucinate, leading to redundent code.
+        -Can lack security.
+        -Understanding and personal work can give a better Taste/Style.
+        -letting AI do it isn't very fun. 
+        -Lacking understanding can lead to messy code that makes little sense.
+        -Learing basics leads to discovery and complex ideas. 
+        -Allows us to use more control and fine tune the AI.
+    Learn what is intresting to me. If I am not intrested in CSS then using AI to help me throgh it isnt the worsed idea.
+    However something that does intrestme like conecting backen DB's to front end pages i shouldnt have AI coast for me. 
+    Also I should look into some ideas that would be intresting.
+    W3schools looks like it can help with js or html documentation
+
+Project 1 - Hello JS (Notes):
+    Here is the documentation for this project. 
+
+Day 4:
