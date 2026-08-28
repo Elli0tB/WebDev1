@@ -26,5 +26,18 @@ Day 3(08/27/2026):
 
 Project 1 - Hello JS (Notes):
     Here is the documentation for this project. 
+    part 1: 
+        So I had very little idea on how to even do HTML so for the first part of the assingment while the power was down at my house. 
+        I asked my father to help walk me through some of the basics of HTML and CSS with a very small amount of java script. 
+        the frame work that I gathered is that you make "objects" with the tags e.x. <html> and close it with <html>. 
+        <html> makes the framework i guess, then <head> is the tab i think, while <body> is the page. 
+        <h1> is a header, <p> is paragraph so just text, and <ul> is a bulleted list with <li>'s in it being the items. 
+        Also <img> is a picter and you include the file name in the src attruibute. 
+        which looks like <img src="Your_pic" > attruibute's are like modifires you apply to the HTML like id# or even other java script.
+        Which is how the button works with java script being embeded as an attruibute
+    Part 2: 
+        After having my dad walk me through the basics and now that i have power, i want to try making something compleatly by my self.
+
+
 
 Day 4:
