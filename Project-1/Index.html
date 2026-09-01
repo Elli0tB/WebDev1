@@ -8,7 +8,7 @@
                 background-color: lemonchiffon;
                 font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
                 transition: background-color 500ms linear;
-                transition: color 500ms linear;
+                transition: color 650ms linear;
             }
             #content {
                 max-width: 500px; 
@@ -41,22 +41,25 @@
                 font-size: 100%;   
             }
             .Zavala body{
-                background-color: blueviolet;
+                background-color: rgb(85, 7, 158);
                 color: white;
             }
+        
             .Zavala .box{
                 border : 2.5px solid rgba(204, 213, 219, 0.625); 
                 background-color: rgba(43, 96, 228, 0.475);
                 border-radius: 0px;
                 padding: 1em;
             }
+            
         
         </style>
     </head>
     <body>
         <section id = "content"> 
         <h1> Elliot Bangerter </h1>
-        <img src="Screenshot_Elliot.png" alt="A beautiful boy!">
+        <img id ="Swappable-img" src="Screenshot_Elliot.png" class="img-main" alt="A beautiful boy!">
+        
         
         <div class = "box">
             <p>Hello my name is Elliot yap yap yap fill in later </p>
@@ -68,6 +71,27 @@
             <li>idea 3 </li>
         </ul>
         </section>
+        
+        <script>
+            /* here is what claude provided 
+            function toggleDarkMode() {
+                const isDark = document.querySelector('html').classList.toggle('dark');
+                document.getElementById('theme-img').src = isDark ? 'dark.png' : 'light.png';
+            } */
+           /* I wasn't a huge fan of the short cut so I'm going to change it to be a bit more beginer freindly to read*/ 
+
+           function LetsGetSerious(){
+                const isSerious = document.querySelector('html').classList.toggle('Zavala');
+                if (isDark) {
+                    document.getElementById('Swappable-img').src = 'Zavala.png';
+                } 
+                else {
+                    document.getElementById('Swappable-img').src = 'Screenshot_Elliot.png';
+                }                
+           }
+
+
+        </script>
 
     </body>
 </html>
