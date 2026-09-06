@@ -40,6 +40,23 @@
                 text-align: center;
                 font-size: 100%;   
             }
+            button#Serious{
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                opacity: .01;
+                transition: opacity 0.3s ease;
+                text-align: center;
+                background-color: rgba(85, 7, 158);
+                color: white;
+                padding: 2px;
+                border-radius: 5px;
+            }
+            #content button:hover {
+                opacity: 1;
+                transform: perspective(300px) rotateX(5deg) rotateY(5deg);
+            }
+
             .Zavala body{
                 background-color: rgb(85, 7, 158);
                 color: white;
@@ -51,7 +68,12 @@
                 border-radius: 0px;
                 padding: 1em;
             }
-            
+            .Zavala #Swappable-img{
+                width: 100%;
+                margin: 1em 0;
+                border: 3.5px solid rgba(187, 2, 2, 0.866);
+                border-radius: 0px;
+            }
         
         </style>
     </head>
@@ -62,14 +84,18 @@
         
         
         <div class = "box">
-            <p>Hello my name is Elliot yap yap yap fill in later </p>
+            <p id = 'Swappable-p'> Hello my name is Elliot I am a jounior in the CS course. I enjoy fantasy games like D&D, videogames, and cooking. Recently I have been wanting to set up a homelab as well!'  </p>
         </div>
-       <button onclick="document.querySelector('html').classList.toggle('Zavala')">Lets get serious people</button>
+       <button id = 'Serious' onclick="LetsGetSerious()">Lets get serious people</button>
         <ul> 
-            <li>idea 1</li>
-            <li>idea 2 </li>
-            <li>idea 3 </li>
+            <li id = 'item-1'>Making an app that I could have moniter and track what my homelab is doing</li>
+            <li id = 'item-2'>Making an app that could connect to a backend database to act as my own cloud stoage </li>
+            <li id = 'item-3'>Having a platfrom that could connect my writting software between devices </li>
         </ul>
+        <label id = 'WhoAmI_Lable' for="WhoAmI" style="display: none;">Who am I?:</label>
+        <input type="text" id="WhoAmI" style="display: none;" name="username" placeholder="Enter your text here">
+        <button id = 'WhoAmI_Button' style="display: none;" onclick="showInput()">Submit</button>
+        <p id="output" ></p>
         </section>
         
         <script>
@@ -79,16 +105,50 @@
                 document.getElementById('theme-img').src = isDark ? 'dark.png' : 'light.png';
             } */
            /* I wasn't a huge fan of the short cut so I'm going to change it to be a bit more beginer freindly to read*/ 
+        let wasShown = false;
+        function LetsGetSerious(){
+            const SeriousSound = new Audio('let\'s get serious people.mp3');
+            const Welcome = new Audio('Welcome.mp3');
 
-           function LetsGetSerious(){
+
                 const isSerious = document.querySelector('html').classList.toggle('Zavala');
-                if (isDark) {
-                    document.getElementById('Swappable-img').src = 'Zavala.png';
+                if (isSerious) {
+                    wasShown = true; 
+                    document.getElementById('Swappable-img').src = 'Zavala.JPG';
+                    document.getElementById('Swappable-p').textContent = ' "Whether we wanted it or not, we\'ve stepped into a war with the Cabal on Mars. So let\'s get to taking out their command, one by one. Valus Ta\'aurc. From what I can gather, he commands the Siege Dancers from an Imperial Land Tank outside of Rubicon. He\'s well protected, but with the right team, we can punch through those defenses, take this beast out, and break their grip on Freehold."';
+                    document.getElementById('item-1').textContent = 'Hello Guardian';
+                    document.getElementById('item-2').textContent = 'We are not an army. We are not conquerors. We are Guardians. We need to keep our eyes here. On our home. Our people. The Traveler.';
+                    document.getElementById('item-3').textContent = 'Wait, if we wait, we die. But if we attack together, we can take back our home, our light, our hope... Or, we die trying.';
+                    SeriousSound.play();
                 } 
                 else {
                     document.getElementById('Swappable-img').src = 'Screenshot_Elliot.png';
-                }                
+                    document.getElementById('Swappable-p').textContent = 'Hello my name is Elliot and... wait you found it. The secret button. Good, very good. Hm thats odd why didnt the list change maybe it forgot who it was? Oh I know tell it something about me that I like to do and it will remember!';
+                    Welcome.play();
+                    
+                    
+                    if (wasShown) {
+                        document.getElementById('WhoAmI_Lable').style.display = 'block'; 
+                        document.getElementById('WhoAmI').style.display = 'block'; 
+                        document.getElementById('WhoAmI_Button').style.display = 'block'; 
+                    }
+                }            
            }
+           
+           function showInput() {
+                const value = document.getElementById('WhoAmI').value;
+
+                if (value == "D&D" || value == "videogames" || value == "cooking" ) { 
+                    document.getElementById('item-1').textContent = 'I Enjoy making D&D campaings for me and my freinds!';
+                    document.getElementById('item-2').textContent = 'I like to play a variaty of video games like God of War, Destiny 2, Risk of Rain 2, and more! ';
+                    document.getElementById('item-3').textContent = 'I enjoy cooking food, while im not the best a most things the one item ive gotten very good at is homemade pizza, using my grandmothers dough recipe';
+                    document.getElementById('output').textContent = `You're right I remember now I love ${value}. Thanks for fixing that wouldnt want to forget how this site works before I send it off ay`;
+                }
+                else{
+                    document.getElementById('output').textContent = `This ${value} is invalid it must be one word and something it like to do! Maybe refreshing the page will remind you too?`;
+                }
+    
+            }
 
 
         </script>

@@ -48,6 +48,11 @@ Project 1 - Hello JS (Notes):
         I still feel like i could have found a way to manipulate the css to change it insted of JavaScript but that looked unnecessary 
         I hated claude's javascript mostly becasuse i didnt understand it but also I showed some short hand without explaining it. 
         After I made it walk me through what was actually happening I was more okay with it. 
+    Part 4:
+        I was a bit stressed for time so i kept the entry quick. I did everything i wanted i threw in more sounds, took input from the user, hid the button, and changed most of the elements.
+        Overall the actual look of the site could be better, but the actual things i did with the sight I am proud of I really wanted to understand how I was interacting with the elements,
+        insted of just having claude call them and tell me what to do. I did still use claude, but I like to think i did actually learn how to use the syntax and structer of JS.
+        Also let me know if you enjoyed the hidden things on the site.
 
 Day 4(09/01/2026):
     NEVER EVER use the important tag. atleaset acording to brayden. this is beace the id, class, and element have diffrent weights to them.
