@@ -119,7 +119,12 @@
                     document.getElementById('item-1').textContent = 'Hello Guardian';
                     document.getElementById('item-2').textContent = 'We are not an army. We are not conquerors. We are Guardians. We need to keep our eyes here. On our home. Our people. The Traveler.';
                     document.getElementById('item-3').textContent = 'Wait, if we wait, we die. But if we attack together, we can take back our home, our light, our hope... Or, we die trying.';
+                    document.getElementById('output').textContent = '';
+                    document.getElementById('WhoAmI_Lable').style.display = 'none'; 
+                    document.getElementById('WhoAmI').style.display = 'none'; 
+                    document.getElementById('WhoAmI_Button').style.display = 'none'; 
                     SeriousSound.play();
+
                 } 
                 else {
                     document.getElementById('Swappable-img').src = 'Screenshot_Elliot.png';
@@ -131,6 +136,7 @@
                         document.getElementById('WhoAmI_Lable').style.display = 'block'; 
                         document.getElementById('WhoAmI').style.display = 'block'; 
                         document.getElementById('WhoAmI_Button').style.display = 'block'; 
+                        wasShown = false;
                     }
                 }            
            }
