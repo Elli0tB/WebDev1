@@ -1,0 +1,4 @@
+
+function getRandom(){
+    Math.random
+}

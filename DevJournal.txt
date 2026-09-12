@@ -55,7 +55,38 @@ Project 1 - Hello JS (Notes):
         Also let me know if you enjoyed the hidden things on the site.
 
 Day 4(09/01/2026):
-    NEVER EVER use the important tag. atleaset acording to brayden. this is beace the id, class, and element have diffrent weights to them.
+    NEVER EVER use the important tag. At leaset acording to brayden. this is beace the id, class, and element have diffrent weights to them.
     an id is (0,0), Class is (0,1), and element has (1,0). this can be increased by giving specificity which will incease the weight.
     important just moves the problem since it can add more weighting issues. 
     maybe make a button that can loop and change things
+
+Day 5(09/08/2026):
+    Solve the simplest problem first. It is much simpiler to take a large problem and then cut it into the smallest problem. 
+    This reduces the scope you need to look at which is way easier to solve.
+    Here are some things we went over in class for JavaScript
+        Objects: and example would be const student = {name: "gilbert", isblurry: true}, its the {} that say im making an object. 
+        const is a type def that is imutible and  shouldnt change, while let defines something and it is mutible so it can change. 
+        Var can also define something to be mutible but its bad since it ignores scoping for the file. 
+        In JavaScript everything is an object strings, ints and eveything is an object which lets you call functions on well everything. 
+        
+Day 6(09/10/2026): 
+    A good tip is to stay informed on recent developments in the tech indestry or really any field you want to work in. 
+   
+    Why can you mutate your const, well in javascript when you create an obj it puts the value in the memory box 
+    Let says you can change whatever you want, like memory location, whats in it, and you can change the value at the pointers 
+    const says you could only change what the value at the memory it points to 
+
+    If you want to assinge a new key value pair you can make it by this object.key = value just make sure to fill in with what it is.
+    also you can add functions to an object like this object.functionName = () => functionCode
+
+    Functions are objects in javascript so they can get weird sometimes. 
+    Here is how arrays vaugely work 
+    Array(10) will allocate 10 blocks of memory similar to python an array in JS doesn't need a set length 
+    arrays have a strange propertie with this everything beinging an object so you can do array.length = 10 
+    and this throws in a empty item for however much it needs to match the size it was told to be. 
+
+    Asynchronous 
+        async await a function like fetch will give a promise object first and let the rest of the code run.
+        then once the fetch returns it will give that data and replace the promise object. 
+        But if you need to use that data right away then you lable the fetch as await that would look like: let data = await fetch()
+        you can also .then() which is just when the promise obj resolve and then you do whatever it in the then()
