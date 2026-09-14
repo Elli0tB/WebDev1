@@ -27,7 +27,7 @@ function Start(){
     // Just to keep this sane lets cap it at 5 buttons. With a the more buttons present the rarer it is for a button to appear
     for (let count = 1; count < 6; count++) {
     // 1. Create the Button
-        if(Math.random() <= .1){   
+        if(Math.random() <= .5){   
             button_count++;
             const newButton = document.createElement('button');
 
