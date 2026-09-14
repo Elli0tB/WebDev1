@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Ping Pong Minigame</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 4px solid #fff;
+            background-color: #000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="pongCanvas" width="800" height="500"></canvas>
+
+    <script>
+        const canvas = document.getElementById("pongCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Game objects
+        const ball = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 10,
+            speed: 5,
+            velocityX: 5,
+            velocityY: 5
+        };
+
+        const paddleWidth = 12;
+        const paddleHeight = 100;
+
+        const player1 = {
+            x: 10,
+            y: canvas.height / 2 - paddleHeight / 2,
+            width: paddleWidth,
+            height: paddleHeight,
+            score: 0,
+            dy: 0 // movement direction
+        };
+
+        const player2 = {
+            x: canvas.width - 10 - paddleWidth,
+            y: canvas.height / 2 - paddleHeight / 2,
+            width: paddleWidth,
+            height: paddleHeight,
+            score: 0,
+            dy: 0
+        };
+
+        // Keyboard tracking
+        const keysPressed = {};
+
+        window.addEventListener("keydown", (e) => {
+            keysPressed[e.key] = true;
+        });
+
+        window.addEventListener("keyup", (e) => {
+            keysPressed[e.key] = false;
+        });
+
+        // Reset ball to center after a point
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.speed = 5;
+            // Reverse direction towards the scoring player
+            ball.velocityX = -ball.velocityX > 0 ? 5 : -5;
+            ball.velocityY = Math.random() > 0.5 ? 5 : -5;
+        }
+
+        // Draw utilities
+        function drawRect(x, y, w, h, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, w, h);
+        }
+
+        function drawCircle(x, y, r, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawNet() {
+            for (let i = 0; i <= canvas.height; i += 15) {
+                drawRect(canvas.width / 2 - 1, i, 2, 10, "#fff");
+            }
+        }
+
+        function drawText(text, x, y) {
+            ctx.fillStyle = "#fff";
+            ctx.font = "45px Arial";
+            ctx.fillText(text, x, y);
+        }
+
+        // Collision detection between ball and a paddle
+        function collision(b, p) {
+            return b.x + b.radius > p.x && 
+                   b.x - b.radius < p.x + p.width && 
+                   b.y + b.radius > p.y && 
+                   b.y - b.radius < p.y + p.height;
+        }
+
+        // Update physics and state
+        function update() {
+            // Move Player 1 (W and S keys)
+            if (keysPressed["w"] || keysPressed["W"]) player1.y -= 7;
+            if (keysPressed["s"] || keysPressed["S"]) player1.y += 7;
+
+            // Move Player 2 (Arrow keys)
+            if (keysPressed["ArrowUp"]) player2.y -= 7;
+            if (keysPressed["ArrowDown"]) player2.y += 7;
+
+            // Keep paddles inside bounds
+            player1.y = Math.max(0, Math.min(canvas.height - player1.height, player1.y));
+            player2.y = Math.max(0, Math.min(canvas.height - player2.height, player2.y));
+
+            // Move the ball
+            ball.x += ball.velocityX;
+            ball.y += ball.velocityY;
+
+            // Ball wall collision (Top / Bottom)
+            if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+                ball.velocityY = -ball.velocityY;
+            }
+
+            // Determine which paddle to check collision against
+            let paddle = (ball.x < canvas.width / 2) ? player1 : player2;
+
+            if (collision(ball, paddle)) {
+                // Calculate where the ball hit the paddle (-1 to 1 range)
+                let collidePoint = (ball.y - (paddle.y + paddle.height / 2));
+                collidePoint = collidePoint / (paddle.height / 2);
+
+                // Calculate bounce angle (up to 45 degrees)
+                let angleRad = (Math.PI / 4) * collidePoint;
+
+                // Determine X direction based on which paddle was hit
+                let direction = (ball.x < canvas.width / 2) ? 1 : -1;
+
+                // Dynamically update velocities based on the angle and speed
+                ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+                ball.velocityY = ball.speed * Math.sin(angleRad);
+
+                // Gradually accelerate the ball to make it challenging
+                ball.speed += 0.4;
+            }
+
+            // Scoring system
+            if (ball.x - ball.radius < 0) {
+                player2.score++;
+                resetBall();
+            } else if (ball.x + ball.radius > canvas.width) {
+                player1.score++;
+                resetBall();
+            }
+        }
+
+        // Render everything
+        function render() {
+            // Clear canvas
+            drawRect(0, 0, canvas.width, canvas.height, "#000");
+
+            // Draw elements
+            drawNet();
+            drawText(player1.score, canvas.width / 4, 60);
+            drawText(player2.score, 3 * canvas.width / 4, 60);
+            drawRect(player1.x, player1.y, player1.width, player1.height, "#fff");
+            drawRect(player2.x, player2.y, player2.width, player2.height, "#fff");
+            drawCircle(ball.x, ball.y, ball.radius, "#fff");
+        }
+
+        // Core Game Loop
+        function gameLoop() {
+            update();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the engine
+        gameLoop();
+    </script>
+</body>
+</html>
