@@ -4,18 +4,36 @@
 <html>  
     <head>  
         <title>WHATS THAT BUTTON</title>
+        <link rel="stylesheet" href="file.css">
         <script src="Scripter.js" defer></script>
+
     </head>
 
     <body>  
         <section id = 'content'>
 
         </section>
-        <h1>Hello Welcome to the hit game show WHATS THAT BUTTON</h1>
-        <p>The rules are simple you lucky contestant will be picking of the the buttons on screen and complete its mini game as fast as possible. If you fail, well lets not talk about it shall we? </p>
-        <label id = 'Start_Lable' for="Start_Button">Click Start If Ready!:</label>
-        <button id = 'Start_Button' onclick= Start()>Start</button>
-        <div id = "Button_Box"> </div>
+        <div id = "Start_Box"> 
+            <h1>Hello Welcome to the hit game show WHATS THAT BUTTON</h1>
+            <p>The rules are simple you lucky contestant will be picking of the the buttons on screen and complete its mini game as fast as possible. If you fail, well lets not talk about it shall we? </p>
+            <label id = 'Start_Lable' for="Start_Button">Click Start If Ready!:</label>
+            <button id = 'Start_Button' onclick= Start()>Start</button>
+        </div>
+        
+        <div id = 'Button_Box'> 
+
+        </div>
+
+        <div id = "Game_Board"> 
+
+        </div>
+        
+        
+        <div id = 'Restart Box'>
+            <p> Incase you are in a bad state or would like to try again feel free to restart!</p>
+            <label id = 'Restart_Lable' for="Restart_Button">Do you need to restart?:</label>
+            <button id = 'Restart_Button' onclick= window.location.reload();>Restart?</button>
+        </div>
 
     </body>
 </html>
