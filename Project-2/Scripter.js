@@ -3,8 +3,7 @@
 let inital_start = true;
 let tool_tip = ["Wow I thought I was bad at this...", "Hey hey dont worry im sure youll get it next time...", "You know I've always wonderd what it would be like to be bad at something? ",
     "Well well well, how the turns have tabled", "Did you know pressing the button is how you play the game?", "Did you know Defect is the best Character from Slay The Spire 1?", "How many buttons have you pushed in your life? Im at 2^42 and counting!" ];
-let win_tip = ["You did it, you did it, you did it, yay lo hicimos", "So you got games on your phone? or are you just going to keep playing this?", "Ya know my mom once told me I was gonna be the greatest game to ever live, do you think she was right?"]
-let point_count = 0;
+let win_tip = ["You did it, you did it, you did it, yay lo hicimos", "So you got games on your phone? or are you just going to keep playing this?", "Ya know my mom once told me I was gonna be the greatest game to ever live, do you think she was right?"];
 
 function fetchRandomFactfromAPI() {
     const url = "https://uselessfacts.jsph.pl/api/v2/facts/random";
@@ -103,6 +102,17 @@ function OpenPopUpGame(count){
 
 }
 
+function cleanBoard(){
+    try {
+        document.getElementById("Game_Header").remove();   // throws here on first-ever run
+        document.getElementById("Game_Text").remove();      // never reached if line above throws
+        document.getElementById("Tool_Tip_Board").textContent = "";  // never reached either
+    } 
+    catch (error) {
+        console.log("Nothing to clean yet:", error.message);
+    }
+}
+
 function lostGame(){
     const Game_Board = document.getElementById("Game_Board");
     while (Game_Board.firstChild) {
@@ -111,21 +121,10 @@ function lostGame(){
     
     // display a random fact
 
-    fetchRandomFactfromAPI().then(random_fact => {
-            if (roll <=.33){
-                Tool_Tip_Board.textContent = `${win_tip[0]} ... Anyways here is a random fact to reward the win: ${random_fact}`
-            }
-            else if (roll <=.66){
-                Tool_Tip_Board.textContent = `${win_tip[1]} ... Anyways here is a random fact to reward the win: ${random_fact}`
-            }
-            else if (roll >.66){
-                Tool_Tip_Board.textContent = `${win_tip[2]} ... Anyways here is a random fact to reward the win: ${random_fact}`
-            }
-        });
-
     const Tool_Tip_Board = document.getElementById("Tool_Tip_Board")
     const roll = Math.random();
-    
+    fetchRandomFactfromAPI().then(random_fact => {
+
         if (roll <=.1){
             Tool_Tip_Board.textContent = `${tool_tip[0]} ... Anyways here is a random fact to ease the loss: ${random_fact}`
         }
@@ -147,9 +146,10 @@ function lostGame(){
         else if (roll >.6){
             Tool_Tip_Board.textContent = `${tool_tip[6]} ... Anyways here is a random fact to ease the loss: ${random_fact}`
         }
+    });
 }   
 
-function MakeTimer(clicked_buttons, Game_Container, time){
+function MakeTimer(points, time, win_condition){
     // Set the initial time duration in seconds (e.g., 5 minutes = 300 seconds)
     let totalSeconds = time; 
 
@@ -170,7 +170,7 @@ function MakeTimer(clicked_buttons, Game_Container, time){
     displayElement.textContent = `${formattedMinutes}:${formattedSeconds}`;
 
     // 4. Check if the timer has finished
-    if (WinCheck(clicked_buttons, 9) == true){
+    if (WinCheck(points.count, win_condition) == true){
         clearInterval(timerInterval); // Stop the interval from running
         displayElement.textContent = "---VICTORY---";
     }
@@ -183,8 +183,6 @@ function MakeTimer(clicked_buttons, Game_Container, time){
         totalSeconds--; // Decrement the time by 1 second
     }
     }, 1000);
-
-
 }
 
 function WinCheck(points, win_condition){
@@ -194,11 +192,7 @@ function WinCheck(points, win_condition){
         while (Game_Board.firstChild) {
             Game_Board.removeChild(Game_Board.firstChild);
         }
-        //fetch fact 
-        fetchRandomFactfromAPI().then(random_fact => {
-            Tool_Tip_Board.textContent = `... ${random_fact}`;
-        });
-        
+
         // display a random fact
         const Tool_Tip_Board = document.getElementById("Tool_Tip_Board")
         const roll = Math.random();
@@ -220,7 +214,7 @@ function WinCheck(points, win_condition){
 }
 
 function MakeButtons(clicked_buttons, container, timer){
-    MakeTimer(clicked_buttons,container,timer)
+    MakeTimer(clicked_buttons,timer,10)
     for (let count = 1; count < 11; count++) {
         // 1. Create the Button
         const newButton = document.createElement('button');
@@ -229,8 +223,10 @@ function MakeButtons(clicked_buttons, container, timer){
         newButton.textContent = `CLICK ME!!`;
         newButton.className = 'Minigame1_Button';
         newButton.id = `Minigame1_Button${count}`;
+        newButton.style.top = `${Math.random() * 80}%`;
+        newButton.style.left = `${Math.random() * 80}%`;
                     
-        newButton.addEventListener('click', () => {newButton.remove(), clicked_buttons++});
+        newButton.addEventListener('click', () => {newButton.remove(), clicked_buttons.count++});
 
         // 3. Append it to the DOM
         container.appendChild(newButton);
@@ -238,14 +234,22 @@ function MakeButtons(clicked_buttons, container, timer){
 }
 
 function MakeVirusAndTrash(dropped_box, container, timer){
-    MakeTimer(dropped_box,container,timer)
-    const Virus = document.createElement('div');
-    const Trash = document.createElement('div');
+    MakeTimer(dropped_box,timer,1)
+    const Virus = document.createElement('img');
+    const Trash = document.createElement('img');
 
     // add attributes to the Virus and trash 
     Virus.id = 'Minigame_3_Virus';
     Trash.id = "Minigame_3_Trash";
     Virus.draggable = true
+    Virus.src = 'computer_virus.png'
+    Trash.src = 'trashcan.png'
+
+    Virus.style.top = `${Math.random() * 80}%`;
+    Virus.style.left = `${Math.random() * 40}%`;    
+    
+    Trash.style.top = `${Math.random() * 80}%`;
+    Trash.style.left = `${55 + Math.random() * 35}%`;    
                     
     Virus.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', e.target.id); });
     Trash.addEventListener('dragover', (e) => { e.preventDefault();});  
@@ -256,13 +260,17 @@ function MakeVirusAndTrash(dropped_box, container, timer){
         const data = e.dataTransfer.getData('text/plain');
         const draggedElement = document.getElementById(data);
             
-        dropZone.appendChild(draggedElement);
+        Trash.appendChild(draggedElement);
+        dropped_box.count++;
     });
+    container.appendChild(Virus)
+    container.appendChild(Trash)
 }
 
 function OpenPopUpGame_1(){
-    let clicked_buttons = 0 
-    let timer = 10
+    cleanBoard();
+    let clicked_buttons = {count: 0}; 
+    let timer = 5
     // lets make a little pop up window that will have a diffent back ground 
     // click all the butons before timer is out
     // on fail pull a random fact from API? 
@@ -273,7 +281,7 @@ function OpenPopUpGame_1(){
     
     Game_Header.textContent = '----MINIGAME 1----'
     Game_Header.id = "Game_Header"
-    Game_Text.textContent = 'Click start when reday, once you do you will have 10 seconds to click 10 randomly placed buttons in the box below'
+    Game_Text.textContent = 'Click start when reday, once you do you will have 5 seconds to click 10 randomly placed buttons in the box below'
     Game_Text.id = "Game_Text"
 
     Game_Container.appendChild(Game_Header);
@@ -293,6 +301,7 @@ function OpenPopUpGame_1(){
 }
 
 function OpenPopUpGame_2(){
+    cleanBoard();
     const Game_Container = document.getElementById("Button_Box")
     let Game_Header = document.createElement('h3')
     let Game_Text = document.createElement('p')
@@ -326,8 +335,9 @@ function OpenPopUpGame_2(){
 }
 
 function OpenPopUpGame_3(){
-    let dropped_box = 0;
-    let timer = 5;
+    cleanBoard();
+    let dropped_box = {count: 0};
+    let timer = 2;
     // need to make the draggable-box and the drop zone
     const Game_Container = document.getElementById("Button_Box")
     const Inner_Container = document.getElementById("Game_Board")
@@ -336,7 +346,7 @@ function OpenPopUpGame_3(){
     
     Game_Header.textContent = '----MINIGAME 3----'
     Game_Header.id = "Game_Header"
-    Game_Text.textContent = 'Click start when reday, once you do you will have 10 seconds to move the virus into the trashcan before it destroys your computer!'
+    Game_Text.textContent = 'Click start when reday, once you do you will have 2 seconds to move the virus into the trashcan before it destroys your computer!'
     Game_Text.id = "Game_Text"
 
     Game_Container.appendChild(Game_Header);
@@ -351,13 +361,4 @@ function OpenPopUpGame_3(){
     });
     Inner_Container.appendChild(First_Button);
 
-}
-
-function OpenPopUpGame_4(){
- // a mimick the sound mini game? 
-
-}
-
-function OpenPopUpGame_5(){
-    // plays the bee movie but super fast
 }

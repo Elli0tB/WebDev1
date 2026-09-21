@@ -104,3 +104,65 @@ Project 2:
         Which google AI gave me and i called it ping pong test. Although I think I would like to come back and make it myself if I have the time. And I dont know if I want to keep it even.
         mostly since ripping off AI work for my hm without even reading and barly intergrating it dosnt quite sit right with me. 
         Regardless thats part 1 done Part 2 will either be me working on css and html or making the popup windows and minigames, untill then
+    Part 2:
+        a way to check if an object exits it with (typeof myObject !== "undefined" && myObject !== null) 
+        Okay so I have compleated project two and there were a lot of changes the big ones are that there are only three minigames. 
+        what the site contains ill leave for you to explore. I insted want to write down what i learned and how stuff works. 
+        first clean board is prety simple the big thing is that there is a try and catch which functionally is the same as try and except from python
+        lost game is pretty simple it loops over the game board an removes all objects so its clean for the next game, and the main foucus is how .then works
+        its just atttached as a suffix and then that calls a function I defined in the then() operation. 
+        Make timer I wont lie i dont understand to well and I want to revew it more. 
+        This is due to I didnt know how to use time in javascript so I had a lot of help from claud. I do understand the math but and its mods to reducee the time left to minutes and not just seconds.
+        The std lib functions its calling im not quite sure on. 
+        However this function gave me one of the coolest things i learned which is that you can activly update elements with the timer, so I think I want to make use of this later.
+        Win check is almost the same as the lost game func but with some math to see if you won.
+        make buttons and pop up game I needed the lest help with since its not to complex. The ability to do style.top with math.random is so cool for the random placment of buttons.
+        The virus and trash game I did need to google methods and ask a few how to's too claud since i just didnt even know what was possible with js
+        the main parts I learnd was how many eventlisteners there are for drag and drop. And it is shockingly easy to just make something dragable. 
+        However you need to make sure to overide the web browsers defult setting otherwise things get weird.
+        The pop up games are pretty strait forward they mostly just do basic set up. Except minigame 2. 
+        Insted I wanted to see how to render and load videos with JavaScript and again it wasnt to difficult but there are a few steps.
+        You can just append and play the video(This wont always work from what i found since browsers want user input to start video),
+        Agian eventlisteners are amazing and do so much of the work. 
+
+        there was also a bunch of css stuff and while its neat im not super intrested in most of it, so i looked up and ai'd a bunch of it.
+        However one thing that i did get intrested in was using a relative object a div in this case to anchor absolute postion objects buttons for me. 
+        This was very nice and convinent for keeping the buttons on the "window" and have random postion.
+        There was also object-fit contain which make it to were something wont run off and out of the object which again was sooo nice.
+
+        I would say for this project there were 2 large ideas that i learned with this
+            1: javascript's default for basic's is pass by refrance which was messing with my win condition check.
+                A easy remady was to wrap the value in a simple object which isnt a dictionary and insted a generic object type that is in js. atleast that what i think it is?
+
+            2: a very easy way at least in this senario and for me to track state and to make something condidtion was bu jumping to a new function insted of having large functions that did everything.
+                This may change and I need to refine how I structer these but I think it turned out quite well.
+        Thats all I have for this project I may notce a bug or something later but I think it should work as intended!
+
+
+
+Day 7(09/15/2026):
+    We talked about places to get free apis the one i wanted to look at ws freeapi on github.
+    the new keyword it will allocate the memory for that thing but not give a value for that thing.
+    while it isnt common it can be useful. this is particularly usefull for making a promise. 
+    A promise is kind of like how rust as the some type 
+
+    How to debug code first go to the line that the error came from. Check the syntax. 
+
+    A commom problem is this idea of when you pass something like a function an example would be .then(console.log("pass")).
+    this wont pass a function insted it passes the resolve of the function. to pass a function you need to do .then( () => {console.log("pass")}).
+    this exists for a stiuation like this 
+        const getFunc(){
+            return () = {console.log("hello")}
+        }
+        let var = promise.then(getFunc()) this will call getFunc while 
+        let var = promise.then(getFunc) will pass the func insted 
+
+    however we now have the await keyword 
+    which looks like this 
+    let resolvedPromise = await promise
+    this stops the javascript and makes it wait for the promise to resolve to whatever data it is 
+    something to note you cannot use the awaite keyword unless you are in a Asynchronous defined function which looks like this 
+
+    const getStudentDataAsync() = async () => {
+        let studentData = await fetchUserData
+    }

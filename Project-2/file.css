@@ -41,8 +41,14 @@ button {
     box-sizing: border-box;
     overflow: hidden;
 }
+
 #Game_header {
     text-align: center;
+}
+
+
+.Minigame1_Button {
+  position: absolute;   /* takes buttons out of normal flow so they can overlap freely */
 }
 
 #Game_Board video {
@@ -62,14 +68,16 @@ button {
   align-items: center;
   justify-content: center;
   cursor: move; /* Visual indicator */
+  position: absolute;
 }
 
-#drop-Minigame_3_Trash {
-  width: 100px;
-  height: 100px;
+#Minigame_3_Trash {
+  width: 45px;
+  height: 45px;
   border: 2px dashed #9a9a9a;
   margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
 }
