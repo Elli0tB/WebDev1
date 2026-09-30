@@ -136,6 +136,10 @@ Project 2:
 
             2: a very easy way at least in this senario and for me to track state and to make something condidtion was bu jumping to a new function insted of having large functions that did everything.
                 This may change and I need to refine how I structer these but I think it turned out quite well.
+            
+            3: the eventlistener can do so much there are so many events it watches for
+            
+            4: HTML has so many attruibute's that make everything so much easier
         Thats all I have for this project I may notce a bug or something later but I think it should work as intended!
 
 
@@ -166,3 +170,57 @@ Day 7(09/15/2026):
     const getStudentDataAsync() = async () => {
         let studentData = await fetchUserData
     }
+
+Day 8(09/15/2026):
+    Interview tips: 
+        Make sure they like you
+        Intrest and excitment matters
+        practice these logic leet code questions these are stange odd logic problems that are very specific most of the time
+            codecoda.com leetcode codeninja all are websites that 
+        know stuff about the industry
+        show up on early. 
+        Be honest & ask questions
+    
+    Code can be built and destoryed quickly, basicly dont be scarred to destory code that you dont need or is bad 
+    api's give you little control over what you are getting. 
+    inhearitance in css just dont do important. this can be done by something that looks like this .button.red{ make button red}
+    the . operation looks for classes which will probably be easier to use for the css
+    what is the diffrence between .button.red and .button .red? the one without space needs both to be true on the same element
+    the one with the space says to go look for a child of the button that is red
+    there is also .button, .red this says anyhting that is a button or red 
+    you can declare a variable without let or var this attaches it to the window or the global object 
+
+    Idempotent: this is when an action or operation produces the same result or thing 
+
+Day 9(09/24/2026): 
+    concepts for the backend: 
+        Interface: where a user can interact with the machine in a visual way, but it can be text with command line. 
+        Interface's allow for a common way for people, or other machines to connect, like pluging into a wall socket. 
+        we need to be carful about how we make the api interface, large changes that destory will break downstream users code. 
+        however makeing small changes that add without breaking will allow old downstream users and new stream users work together
+
+        3-Tier Architecture: 
+            this is a Frontend -> Backend -> Database 
+            for this we need interface's that should be clean and modular not hard coded that will make it increadably difficult to change, 
+            or even have others connect through the same inerface. 
+
+        API Keys: 
+            never put this on git or on the front end. It should always be in the backend and it should be saved to the machine not git
+            
+        HTTP methods: 
+            GET: gets stuff, Idempotent
+            POST: sends stuff, not Idempotent makes a new object each time
+            DELETE: deletes stuff 
+            PUT: sends stuff, Idempotent wont make a new object each time it will replace whatever was in that spot 
+            HEAD: says what could happen 
+            OPTIONS: same as head 
+            PATCH: updates to have the new thing you add 
+
+Day 10(09/24/2026):
+    For the first part of class we mostly just talked about the class and how next week, the midterm, will play out. 
+    He did recommend to make a list of things to talk about to be prepared. 
+
+Project 3:
+    For this I want a archive that will let me acces data and notes for a location and npcs for dnd. For this we will just stick to characters.
+    We may look into full dnd notes and files in a later project. 
+    
