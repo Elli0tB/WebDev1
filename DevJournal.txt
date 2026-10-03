@@ -221,6 +221,40 @@ Day 10(09/24/2026):
     He did recommend to make a list of things to talk about to be prepared. 
 
 Project 3:
-    For this I want a archive that will let me acces data and notes for a location and npcs for dnd. For this we will just stick to characters.
-    We may look into full dnd notes and files in a later project. 
+    For this project I'll just stick to the regular reqirements and if I have time later we can go back through and customize it. 
+    replaceChildren(); is aprerently a fast and eacy way to just clear all children and eventlisteners 
+    Overall this project wasnt to hard the most complex bits are the fetch logic, and the backend was simpiler and yet more intracit than i first thought 
+    lets start with the fetch logic:
+        //first we call fetch and give it the address of my local server 
+        fetch('http://127.0.0.1:5000/messages') 
+        // this .then says as soon as you get the response do this code with it. It also makes everything wait until the response is back
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            //This if just checks to see if we got an http error and sends it back to us.
+            return response.json(); // this makes the JSON response into useable JS
+        })
+        .then(data => updateMessages(data))
+        // this then says after the other than call this function
+        .catch(error => console.error('Error fetching data:', error));
+        // this checks and sees if anything faild and tried to fall through and give us an error insted of just no response or a crash
+
+    The backend I think is a bit more intresting:
+        firstly it is way easier to just start the server than i thought. its 2 lines of code! I though this would be the hard part
+            backend = Flask(__name__)
+            CORS(backend)
+            # this will start a Flask server object that we call backend, and CORS(backend) enables CORS, its shrimple really.
+
+            the things that I I was rusty or just didnt know how to use were jsonify, json, and open in python. 
+            I knew how to open a file and read or overwite it but I didnt know how to append to it and open can just do that with the a methods so that was easy.
+            json.dumps(text) will just incode the text as valid json which made my life so much easier, this would have been a nightmare without it.
+            json.loads(text) just decodes and it is also very nice, before this I didnt even know either of these existed 
+
+            one last thing about the back end line 16 or any of the lines that look like this @backend.route('/messages', methods=['GET', 'POST'])
+            were very confusing to me at first but after some digging i think i get it now the @backend.route says if a requste comes in with the 'messages route do this code
+            and the methods says what kind of methods are valid anything else will be rejected. 
+    Overall this was a very intresting project especially if you go far beyond the reqirements of the backend. 
+    I didnt do this becasuse of time constaints with all of my classes haveing a lot of projects and homework, and my job just needing a lot of hours.
+    If I had more time i would have loved to make a backend that could have a id tag associated with data. however thats looking to be more in line with the database project next time.
     

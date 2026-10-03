@@ -5,12 +5,11 @@ from flask_cors import CORS
 import os 
 import json
 
-
     #  Using Python, create a server web application which implements an API that receives, stores, 
     # and returns simple messages, according to the following specifications:
     #CORS  should be implemented server-wide in order to support Ajax requests from client applications.
     
-LOG_FILE = "messages.txt"
+LOG_FILE = "/Users/elliotbangerter/WebApp-Dev-1/Project-3/messages.txt"
 backend = Flask(__name__)
 CORS(backend)
 
@@ -18,7 +17,7 @@ CORS(backend)
 def messages():
     if request.method == 'POST':
         return post_mssg()
-    elif request.method =='GET':
+    if request.method =='GET':
         return get_mssg()
 @backend.errorhandler(404)
 def not_found(error):
@@ -27,8 +26,6 @@ def not_found(error):
         # then the server should return an appropriate Not Found response, with the correct status code, 
         # and content that properly explains the reason for this response. 
         # The content type may be plain text or HTML; set the response header correctly.
-    
-
 
 def post_mssg():
     message = request.json
@@ -52,10 +49,6 @@ def get_mssg():
     # by reading the messages from the file on the local filesystem. 
     # The data should be returned as a JSON array within the response body,
     #  and the server should respond appropriately with the status code 200 OK and the Content-Type response header set correctly.
-
-
-
-
 
 if __name__ == "__main__":
     backend.run()

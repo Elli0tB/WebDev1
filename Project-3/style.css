@@ -1,0 +1,42 @@
+body {
+    background-color: rgba(1, 14, 33, 0.895);
+    color: whitesmoke;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    transition: background-color 500ms linear, color 650ms linear;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 10vh;
+    margin: 0;
+}
+
+h1 {
+    font-size: 225%;
+    margin: 0 0 0.5em;
+}
+
+button {
+    text-align: center;
+    background-color: whitesmoke;
+    color: rgba(1, 14, 33, 0.895);
+    padding: 2px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.styled-list {
+  list-style-type: none; /* Removes default bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.styled-list > li {
+  border: 2px solid #3713da;     
+  background-color: #13024f; 
+  color: rgba(184, 135, 213, 0.895);  
+  padding: 10px 15px;          
+  margin-bottom: 8px;          
+  border-radius: 4px;          
+
+}

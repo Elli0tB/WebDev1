@@ -1,16 +1,23 @@
-<!-- 
-    Using JavaScript, create a client web application that communicates with your server application, using its API, on behalf of the user, with the following:
+<head>
+    <title>Supercool website</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripter.js" defer></script>
 
-        A simple form that allows the user to enter a message and click a button to record their message. Upon submission, the message should be sent to the server API using the Fetch API, using the appriorate API route above. The form should be styled to allow the user to easily enter a message of any length.
+</head>
 
-        A list of messages that contains all messages returned by the server API, displayed in the order they are given. The messages should be requested from the server API using the Fetch API, using the appropriate API route above. The list should be styled to cleanly display a large list of messages, containing messages of any length.
-
-        After the user submits a new message to the server API, the list should be refreshed to reflect the new message. After the server responds from the initial request which sent the message, a subsequent request should be made to refresh the list.
-
-        All data sent and received to and from the server API should be implemented using Ajax requests.
-
-    You may take liberties to modify your application’s features and purpose from that described above, but the overall specifications and structure listed above should still be met.
-
-    Make your application look professional and presentable. Use valid HTML and CSS to structure and style your application.
-
-    No third-party JavaScript or CSS libraries or frameworks may be used without prior instructor permission""" -->
+<body>
+    <h1>Message Boardom</h1>
+    <p> Do you ever just get board and wanna share that with the world?<br> Now you can with Message Boardom. The message board for the bored, just click the Request Messages button below! </p>
+    <button id = "Message_Request" onclick = "fetchAPI('GET')">Request Messages</button>
+    <ul id = "Message_Log" class ="styled-list">Message Log:</ul>
+    
+    <p id = "Message_Response_Text"> If just reading isnt up to snuff for you, feel free to upload your own messages</p>
+    
+    <label id = "Message_Upload_Lable" for = "Message_Upload ">Message Contents:</label>
+    <input type="text" id="Message_Upload" name="message" placeholder="What would you like to say?">
+    <button id = 'Message_Submit' onclick=" (() => {
+        const message = document.getElementById('Message_Upload').value;
+        fetchAPI('POST', message)
+        document.getElementById('Message_Upload').value = ''
+        })()">Submit</button>
+</body>
