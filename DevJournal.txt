@@ -257,4 +257,12 @@ Project 3:
     Overall this was a very intresting project especially if you go far beyond the reqirements of the backend. 
     I didnt do this becasuse of time constaints with all of my classes haveing a lot of projects and homework, and my job just needing a lot of hours.
     If I had more time i would have loved to make a backend that could have a id tag associated with data. however thats looking to be more in line with the database project next time.
-    
+
+    before i wanted to submit i just wanted to check with an ai to see if my code met the reqirements.
+    I compleatly missed handeling for paragraph like text with new lines. So it gave me a recommend input type i hadent heard of before.
+    textarea this is was way nice since it has that ability backed in and it can be dynamic with the sizing with the row attruibute!
+    Also with some basic css changes i got a built in scroll wheel with the following css code 
+    max-width: 600px;
+    max-height: 400px;
+    overflow-y: auto;
+    anyways now I think im good to submit!

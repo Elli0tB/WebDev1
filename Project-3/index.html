@@ -14,7 +14,7 @@
     <p id = "Message_Response_Text"> If just reading isnt up to snuff for you, feel free to upload your own messages</p>
     
     <label id = "Message_Upload_Lable" for = "Message_Upload ">Message Contents:</label>
-    <input type="text" id="Message_Upload" name="message" placeholder="What would you like to say?">
+    <textarea id="Message_Upload" rows="4" placeholder="What would you like to say?"></textarea>
     <button id = 'Message_Submit' onclick=" (() => {
         const message = document.getElementById('Message_Upload').value;
         fetchAPI('POST', message)
