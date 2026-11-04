@@ -142,8 +142,6 @@ Project 2:
             4: HTML has so many attruibute's that make everything so much easier
         Thats all I have for this project I may notce a bug or something later but I think it should work as intended!
 
-
-
 Day 7(09/15/2026):
     We talked about places to get free apis the one i wanted to look at ws freeapi on github.
     the new keyword it will allocate the memory for that thing but not give a value for that thing.
@@ -266,3 +264,115 @@ Project 3:
     max-height: 400px;
     overflow-y: auto;
     anyways now I think im good to submit!
+
+Day 11(10/20/2026):
+    AI's are really limited by their context window and their productivity is logrithmic
+
+    Same Origin Policy: Similar to how mail works we networking and pactes are similar. 
+    Unlike the mail system we do not have control over the signiture on the packet in a browser. 
+    Insted the browser handels cookies and all the metadata to limit spoofing the origion on the packet. 
+    This is to prevent cookies tokens and other data from other tabs and spoofing
+
+    anything else than browsers wont enforce this, browsers do this becasuse they have secret cookies and that meta data 
+
+    CORS: Cross origion resorce sharing
+        This lets us change and allow diffrent origions this way we can have other sites, domains, and others connect and be authorised
+        this just stops the browser from emideitly rejecting something and lets us connect to multipule things. 
+        IT DOES NOT PROVIDE SECURITY. Just lets us talk easier.
+
+    Three Tiered Architecture:
+        Frontend:
+            Needs to process the data, updates the url so it can requste something a post requste for this example.
+            get requstes can send data but it has to be in the header when a ? is in a url this is a get requste sending data in the url, and this is messy
+            this can be usefull in some stiuations 
+            let the user know the complant passed 
+
+        Backend:
+            Whats in the box! 
+            We need to read the header and see if we want to accept the packet if we do what next? 
+            Then we parse, orgonize, do whatever we need to to handle that type of requste. in our case its storing a complante
+            we write or store whatever we need to, how is dependint on what our database is 
+            if we get confermation from the DB then we should let the frontend know it passed 
+
+        Database:
+            In a lot of cases we can just have a small txt file or something else. 
+            This wont always be the case since we will want to use a database which if you squint are kinda just file systems 
+            These have wappers like the backend so we can store stuff in here
+            as long as the data is stored it can be retived, and we should confirm to the backend if the data was stored 
+
+            Also no everything needs to be sotred in a DB like photos those dont work well since its just a full file. 
+            so its going to be much easier to just store it in your file system.
+
+Project 4:
+    Okay to start out lets flesh out the backend its the center point for this since both the front end and the back end need it
+    I would like to do something a bit more intresting for this project since project 3 gave me the basic structer and ideas
+    Lets do a D&D character archive. first we need to decide what that means we are told we need 5 attruibutes not including ID 
+    character ID,       Name,      Class,      Combat Style,        abilitys,       Playability status,             Lore.
+    ID tag(num)(0),     La Vichi,   Rouge,      Hit and run,        Sneak, bow, etc,   (playable, npc, unplayable), breife desc
+
+    for this we should use the name as the primary way to find a character
+    
+    Part 2: 
+
+    Okay so the back end is set up with two charactes to fill in for the base data, ill add more later.
+    now lets turn our attention to 
+
+Day 12(10/27/26):
+    complexity is the enemy of security, this can be for two big reasons.
+    one it makes it harder to look through what you have to find the bugs and security issues you have. It will also increase your attack surface. 
+    Another thing to note is to avoid verbs like getpokemon this is becasue it breaks convention of just having the resorce being in the url 
+    this is doen becasue we may want to get put post or delete from that api
+
+    for project 4 unfortantly a sql db is way overkill and unnecessary
+
+    relationals db: 
+        these are great at working with related data, it will pull al the related data, and can combine it 
+        making it great to explore the data activly
+    
+    non relational db or non sql: 
+        this is great for unrelated data or things that dont need to interact
+        this is activly hostile to explore though due to how hidden and unrelated everyhting is
+    
+    sql and css are closer related than you might think this is becuase both are not imparitive languages insted of bign told what to do
+    you tell them what you want and they will figure out how to do it. 
+
+Day 13(11/03/26):
+    We arent good at being bord.
+    it actually is even a good thing that lets us increase our creativity but small and constant disctracgtions like shorts eat that time 
+    and prevent us from using that time and letting our brains create
+
+    Big missconceptions:
+        How a messages goes from the front end all the way to the db and then back 
+        just help clean up how you prepare the presentation
+        Look into drawing some diagrams
+
+    the <dialog> is good for modal's 
+
+    what is the diffrance between == and === in js
+        ==: this is seeing if they are the same value or truthy or falsey 
+            this will also attempt to convert the type 
+
+        ===: this is an identaiy operator that checks for if this is a the same object in memory
+
+    Interface's: 
+        what we tend to do when we make code is start with one thing and then make it and move on. 
+        what we dont do whith our code is go back and see how we could make this better 
+        doing this will solve the jerry problem and it makes it so much simpiler to read 
+
+
+Final Presentation Revew: 
+    Okay here is eveything that I really want to explain during the final for this lets avoid anything that I went over in the midterm already. 
+
+    CORS:
+        CORS HEADERS: 
+            this lets us reah out and before we actually send the request we check if it will be accept, kind of like us saying if i send this will you read it?
+            this is for browsers specificly so that bank data from another tab couldn't be used on another site.
+
+    3-Tier-Architecture: 
+
+    Project 4: 
+
+    Project 5: 
+
+    Other intresting topics: 
+        ...
