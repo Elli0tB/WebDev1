@@ -6,7 +6,7 @@ from flask_cors import CORS
 import backend_interface
 import json
 
-# set up database
+# set up database interface nice and clean 
 def get_db():
     if "db" not in instance:
         instance.db = backend_interface.DataBaseLoader()
@@ -81,7 +81,7 @@ def delete_char(character_name,db):
         print("ERROR: NAME NOT FOUND")
         return "ERROR: NAME NOT FOUND", 400
     db.execute("DELETE FROM users WHERE name == ?", character_name)
-    return "", 201
+    return "", 204
 
 # ---CRUD: Replace ---
 #only partly
@@ -104,7 +104,7 @@ def not_found(error):
         # and content that properly explains the reason for this response. 
         # The content type may be plain text or HTML; set the response header correctly.
 
-
+#tear down the db interface 
 @backend.teardown_appcontext
 def close_db(exc):
     db = instance.pop("db", None)

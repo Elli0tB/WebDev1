@@ -1,0 +1,59 @@
+<head>
+    <title>D&D Character Archive!</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripter.js" defer></script>
+</head>
+
+<body>
+    <h1> Welcome to the D&D Character Archive!</h1>
+    <p> This is a simple site that will allow for a variaty of actions on storing, modifing, and deleting characters</p>
+    
+    <search>
+        <label for="character_search">Search for characters:</label>
+        <input type="search" id="character_search" name="character" placeholder="Character Name">
+        <button id = "submit_button" onclick=" (() => {
+            const message = document.getElementById('character_search').value;
+            SearchCharacters(message)
+            document.getElementById('character_search').value = ''
+        })()">Search</button>
+    </search>
+
+    <ul id = "character_log" class ="styled-list">
+
+    </ul>
+    
+    <p>Here you can create modify or delete a character!</p>
+    <label  id = "create_character_lable" for="create_character_button">Create A New Character!:</label>
+    <button id = "create_character_button" onclick=" (() => {
+                const message = document.getElementById('create_character_txt').value;
+                CreateCharacter(message)
+                document.getElementById('create_character_txt').value = ''
+            })()">Create</button>
+    <label id = "modify_character_lable" for = "modify_character_button ">Modify An Existing Character:</label>
+    <button id = "modify_character_button" onclick=" (() => {
+                const message = document.getElementById('modify_character_txt').value;
+                ModifyCharacter(message)
+                document.getElementById('modify_character_txt').value = ''
+            })()">Modify</button>
+    <label id = "delete_character_lable" for = "delete_character_button ">Delete An Existing Character:</label>
+    <button id = "delete_character_button" onclick=" (() => {
+                const message = document.getElementById('delete_character_txt').value;
+                DeleteCharacter(message)
+                document.getElementById('delete_character_txt').value = ''
+            })()">Modify</button>
+    <div id = "form_box">
+        
+    </div>
+
+    <p id = "response_text"> </p>
+
+    <dialog id="error_pop_up">
+        <h2>WARNING ERROR FOUND</h2>
+        <p>You have one or more empty feilds in the character creator. just put something in for now you can change it later</p>
+        <form method="dialog">
+            <button value="confirm">Exit</button>
+        </form>
+  </dialog>
+
+
+</body>
