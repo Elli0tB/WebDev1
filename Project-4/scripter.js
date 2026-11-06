@@ -1,16 +1,14 @@
-function backend_helper(endpoint,header){
-    fetch(endpoint,header)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); // Parses JSON response into a JavaScript object
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    
+async function backend_helper(endpoint, options) {
+    const response = await fetch(endpoint, options);
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = response.status === 204 ? null : await response.json();
+    return { status: response.status, data: data };
 }
 // id, name, char_class, combat_style, abilities, playability_status, lore
 function generate_form(form_type){
+    clean_form()
     let form_box = document.getElementById('form_box');
     let name_txt = document.createElement('input').type = 'text';
     name_txt.id = 'form_name_txt_input';
@@ -39,7 +37,7 @@ function generate_form(form_type){
 
 }
 
-function read_form(form_type){
+async function read_form(form_type){
     const name_value = document.getElementById('form_name_txt_input').value;
     const class_value = document.getElementById('form_class_txt_input').value;
     const combat_style_value = document.getElementById('form_combat_style_txt_input').value;
@@ -47,14 +45,20 @@ function read_form(form_type){
     const playability_value = document.getElementById('form_playability_txt_input').value;
     const lore_value = document.getElementById('form_lore_txt_input').value;
     let char_list = [name_value,class_value,combat_style_value,abilities_value,playability_value,lore_value];
+    for(index = 0; index < char_list.length; index++){
+        if (char_list[index] = "N/A"){
+            submit_error_to_user("N/A in form input");
+            return;
+        }
+    }
     if (form_type == "Creation"){
-        create_character_call_back(char_list);
+        await create_character_call_back(char_list);
     }
     else if (form_type == "Modification"){
-        modify_character_call_back(char_list);
+        await modify_character_call_back(char_list);
     }
     else if (form_type == "Deletion"){
-        delete_character_call_back(char_list);
+        await delete_character_call_back(char_list);
     }
     else { 
        Error('PANIC! FATLE ERROR GOT A INVALD METHOD OF READING');
@@ -81,37 +85,55 @@ function clean_form(){
 }
 
 function submit_error_to_user(Error_type){
-   // this needs to take a error msg and make a prompt for it with a pop up window 
+    
+    if (Error_type == "N/A in form input"){
+        const dialog = document.getElementById('invalid_input');
+        dialog.showModal()
+
+    }
+    else if (Error_type == "empty value in creation"){
+        const dialog = document.getElementById('character_creation_empty_feild');
+        dialog.showModal()
+    }
+    else{
+        Error("GOT A ERROR OF INVALID TYPE")
+    }
 }
 
-function serch_display(characters){
+function search_display(characters){
     let character_log = document.getElementById('character_log');
-    for(index = 0; index < characters.length(); index++){
-        let character = document.createElement('li').textContent = 
-        `Character ID: ${character[0]},\n
-         Name: ${character[1]},\n 
-         Class: ${character[2]},\n 
-         Combat Style: ${character[3]},\n 
-         Abilities: ${character[4]},\n 
-         Playability Status: ${character[5]},\n 
-         Lore:${character[6]} 
+    for(let index = 0; index < characters.length; index++){
+        let character = document.createElement('li');
+        character.textContent = 
+        `Character ID: ${characters[0]},
+         Name: ${characters[1]}, 
+         Class: ${characters[2]}, 
+         Combat Style: ${characters[3]}, 
+         Abilities: ${characters[4]},
+         Playability Status: ${characters[5]}, 
+         Lore:${characters[6]}
         `
         character_log.appendChild(character);
     }
 }
 
-function SearchCharacters(name){
-    document.getElementById('character_log').replaceChild();
-    let response_json = "";
+async function SearchCharacters(name){
+    document.getElementById('character_log').replaceChildren();
+    let response;
     let params = {method: 'GET'};
-    if (name == ""){
-        response_json = backend_helper('http://127.0.0.1:5000/character',params);
-    }
-    else{ 
-        response_json = backend_helper(`http://127.0.0.1:5000/character/${name}`,params);
+    try{
+        if (name == ""){
+            response = await backend_helper('http://127.0.0.1:5000/character',params);
         }
-    let response = response_json.json();
-    search_display(response);
+        else{ 
+            response = await backend_helper(`http://127.0.0.1:5000/character/${name}`,params);
+            }
+        search_display(response);
+    }
+    catch(error){
+        console.error('Search failed:', error);
+    }
+    
 }
 
 function CreateCharacter(){
@@ -120,9 +142,9 @@ function CreateCharacter(){
 }
 
 // char info is an array of 5 items
-function create_character_call_back(char_info){
+async function create_character_call_back(char_info){
     let valid = true;
-    for (let index = 0; index < char_info.length(); index++){
+    for (let index = 0; index < char_info.length; index++){
         if (char_info[index] =''){
             // this is an error for creation but not modification
             submit_error_to_user("empty value in creation");
@@ -132,16 +154,21 @@ function create_character_call_back(char_info){
     
     if (valid = true){
         let params = { method: 'POST', headers: { "Content-Type": "application/json"}, body: JSON.stringify(`${message}`)};
-        let response_json = backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
-        let response = response_json.json();
-        if (response[1] != 201){
-            Error(`HTTP error! Status: ${response.status} instead of 201!`)
-           document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload for this reason${response[0]}`
+        try{
+            let response_json = await backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
+            let response = response_json.json();
+            if (response.status != 201){
+                throw new Error(`HTTP error! Status: ${response.status} instead of 201!`)
+              
+            }
+            else{ 
+                document.getElementById('response_text').textContent = "Success! Your character has been uploaded"
+            }
         }
-        else{ 
-            document.getElementById('response_text').textContent = "Success! Your character has been uploaded"
+        catch(error){
+            document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload: ${error.message}`;
         }
-    }
+    }   
 }
 
 function ModifyCharacter(){
@@ -150,23 +177,28 @@ function ModifyCharacter(){
 }
 
 // char info is an array of 5 items
-function modify_character_call_back(char_info){
+async function modify_character_call_back(char_info){
     let path = 'PUT'
-    for (let index = 0; index < char_info.length(); index++){
+    for (let index = 0; index < char_info.length; index++){
         if (char_info[index] =''){
             char_info[index] = "N/A"
             path = "PATCH"
         }
     }
     let params = { method: `${path}`, headers: { "Content-Type": "application/json"}, body: JSON.stringify(`${message}`)};
-    let response_json = backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
-    let response = response_json.json();
-    if (response[1] != 201){
-        Error(`HTTP error! Status: ${response.status} instead of 201!`)
-       document.getElementById(response_text).textContent = "ERROR! Your character has failed to upload"
+    try{
+        let response_json = await backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
+        let response = response_json.json();
+        if (response.status != 201){
+            throw new Error(`HTTP error! Status: ${response.status} instead of 201!`)
+        }
+        else{ 
+            document.getElementById(response_text).textContent = "Success! Your character has been uploaded"
+        }
     }
-    else{ 
-        document.getElementById(response_text).textContent = "Success! Your character has been uploaded"
+    catch(error){
+        document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload: ${error.message}`;
+
     }
 }
 
@@ -174,15 +206,19 @@ function DeleteCharacter(){
     generate_form("Deletion");
 }
 
-function delete_character_call_back(name){
+async function delete_character_call_back(name){
     let params = {method: 'DELETE'};
-    let response_json = backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
-    let response = response_json.json();
-    if (response[1] != 204){
-        Error(`HTTP error! Status: ${response.status} instead of 204!`)
-       document.getElementById(response_text).textContent = "ERROR! Your character has failed to delete"
+    try {
+        let response_json = await backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
+        let response = response_json.json();
+        if (response[1] != 204){
+            throw new Error(`HTTP error! Status: ${response.status} instead of 204!`)
+        }
+        else{ 
+            document.getElementById(response_text).textContent = "Success! Your character has been deleted"
+        }
     }
-    else{ 
-        document.getElementById(response_text).textContent = "Success! Your character has been deleted"
+    catch(error){
+        document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload: ${error.message}`;
     }
 }

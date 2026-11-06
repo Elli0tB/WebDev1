@@ -19,7 +19,7 @@
     </search>
 
     <ul id = "character_log" class ="styled-list">
-
+        
     </ul>
     
     <p>Here you can create modify or delete a character!</p>
@@ -47,13 +47,20 @@
 
     <p id = "response_text"> </p>
 
-    <dialog id="error_pop_up">
+    <dialog id="character_creation_empty_feild">
         <h2>WARNING ERROR FOUND</h2>
         <p>You have one or more empty feilds in the character creator. just put something in for now you can change it later</p>
         <form method="dialog">
             <button value="confirm">Exit</button>
         </form>
-  </dialog>
+    </dialog>
+     <dialog id="invalid_input">
+        <h2>WARNING ERROR FOUND</h2>
+        <p>You have invalid input in a form invalid inputs are: N/A</p>
+        <form method="dialog">
+            <button value="confirm">Exit</button>
+        </form>
+    </dialog>
 
 
 </body>
