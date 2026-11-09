@@ -368,8 +368,6 @@ Project 4:
         to change how we format things to look nicer, its compleatly useless for this project but it is something I should know incase it is needed for later.
         and you can have a readonly with css which is intresting.
 
-        tested projet 4 for remote download
-
 
 Day 12(10/27/26):
     complexity is the enemy of security, this can be for two big reasons.
