@@ -7,33 +7,101 @@ async function backend_helper(endpoint, options) {
     return { status: response.status, data: data };
 }
 // id, name, char_class, combat_style, abilities, playability_status, lore
-function generate_form(form_type){
+function generate_form(form_type, character = null){
     clean_form()
     let form_box = document.getElementById('form_box');
-    let name_txt = document.createElement('input').type = 'text';
+
+    let form_header = document.createElement('h3');
+    form_header.textContent = `Character ${form_type} Form`;
+
+    let name_txt = document.createElement('input');
+    name_txt.type = 'text';
     name_txt.id = 'form_name_txt_input';
-    let class_txt = document.createElement('input').type = 'text';
-    name_txt.id = 'form_class_txt_input';
-    let combat_style_txt = document.createElement('input').type = 'text';
-    name_txt.id = 'form_combat_style_txt_input';
-    let abilities_txt = document.createElement('input').type = 'text';
-    name_txt.id = 'form_abilities_txt_input';
-    let playability_txt = document.createElement('input').type = 'text';
-    name_txt.id = 'form_playability_txt_input';
-    let lore_txt = document.createElement('input').type = 'text';
-    name_txt.id = 'form_lore_txt_input';
+    let name_label = document.createElement('label');
+    name_label.textContent = 'Name:';
+    name_label.setAttribute('for', 'form_name_txt_input');
+
+    let class_txt = document.createElement('input');
+    class_txt.type = 'text';
+    class_txt.id = 'form_class_txt_input';
+    let class_label = document.createElement('label');
+    class_label.textContent = 'Class:';
+    class_label.setAttribute('for', 'form_class_txt_input');
+
+
+    let combat_style_txt = document.createElement('input');
+    combat_style_txt.type = 'text';
+    combat_style_txt.id = 'form_combat_style_txt_input';
+    let combat_style_label = document.createElement('label');
+    combat_style_label.textContent = 'Combat Style:';
+    combat_style_label.setAttribute('for', 'form_combat_style_txt_input');
+
+    let abilities_txt = document.createElement('input');
+    abilities_txt.type = 'text';
+    abilities_txt.id = 'form_abilities_txt_input';
+    let abilities_label = document.createElement('label');
+    abilities_label.textContent = 'Abilities:';
+    abilities_label.setAttribute('for', 'form_abilities_txt_input');
+
+    let playability_txt = document.createElement('input');
+    playability_txt.type = 'text';
+    playability_txt.id = 'form_playability_txt_input';
+    let playability_label = document.createElement('label');
+    playability_label.textContent = 'Playability Status:';
+    playability_label.setAttribute('for', 'form_playability_txt_input');
+
+    let lore_txt = document.createElement('textarea');
+    lore_txt.id = 'form_lore_txt_input';
+    let lore_label = document.createElement('label');
+    lore_label.textContent = 'Lore:';
+    lore_label.setAttribute('for', 'form_lore_txt_input');
+
     let submit_button = document.createElement('button');
     submit_button.textContent = 'Submit';
     submit_button.id = 'form_submit_button';
+   
+
     submit_button.onclick = function() {
         read_form(form_type)
     };
+
+    if (character) {
+        name_txt.value = character.name;
+        name_txt.readOnly = true;   // the name is the lookup key, so it can't be edited
+        class_txt.value = character.char_class;
+        combat_style_txt.value = character.combat_style;
+        abilities_txt.value = character.abilities;
+        playability_txt.value = character.playability_status;
+        lore_txt.value = character.lore;
+    }
+
+    form_box.appendChild(form_header);
+
+    form_box.appendChild(name_label);
     form_box.appendChild(name_txt);
+    form_box.appendChild(document.createElement('br'));
+
+    form_box.appendChild(class_label);
     form_box.appendChild(class_txt);
+    form_box.appendChild(document.createElement('br'));
+
+    form_box.appendChild(combat_style_label);
     form_box.appendChild(combat_style_txt);
+    form_box.appendChild(document.createElement('br'));
+
+    form_box.appendChild(abilities_label);
     form_box.appendChild(abilities_txt);
+    form_box.appendChild(document.createElement('br'));
+    
+    form_box.appendChild(playability_label);
     form_box.appendChild(playability_txt);
+    form_box.appendChild(document.createElement('br'));
+
+    form_box.appendChild(lore_label);
     form_box.appendChild(lore_txt);
+    form_box.appendChild(document.createElement('br'));
+
+    form_box.appendChild(submit_button);
 
 }
 
@@ -45,8 +113,8 @@ async function read_form(form_type){
     const playability_value = document.getElementById('form_playability_txt_input').value;
     const lore_value = document.getElementById('form_lore_txt_input').value;
     let char_list = [name_value,class_value,combat_style_value,abilities_value,playability_value,lore_value];
-    for(index = 0; index < char_list.length; index++){
-        if (char_list[index] = "N/A"){
+    for(let index = 0; index < char_list.length; index++){
+        if (char_list[index] == "N/A"){
             submit_error_to_user("N/A in form input");
             return;
         }
@@ -57,31 +125,15 @@ async function read_form(form_type){
     else if (form_type == "Modification"){
         await modify_character_call_back(char_list);
     }
-    else if (form_type == "Deletion"){
-        await delete_character_call_back(char_list);
-    }
     else { 
-       Error('PANIC! FATLE ERROR GOT A INVALD METHOD OF READING');
+       throw new Error('PANIC! FATLE ERROR GOT A INVALD METHOD OF READING');
     }
     // this will read the values in the inputs and make it into a usable array and hand it into an array that is sent to its handeller 
-    
+    clean_form();
 }
 
 function clean_form(){
-    const name_input = document.getElementById('form_name_txt_input');
-    const class_input = document.getElementById('form_class_txt_input');
-    const combat_style_input = document.getElementById('form_combat_style_txt_input');
-    const abilities_input = document.getElementById('form_abilities_txt_input');
-    const playability_input = document.getElementById('form_playability_txt_input');
-    const lore_input = document.getElementById('form_lore_txt_input');
-
-    name_input.remove();
-    class_input.remove();
-    combat_style_input.remove();
-    abilities_input.remove();
-    playability_input.remove();
-    lore_input.remove();
-    // and it will clean up the form
+    document.getElementById('form_box').replaceChildren();
 }
 
 function submit_error_to_user(Error_type){
@@ -96,24 +148,24 @@ function submit_error_to_user(Error_type){
         dialog.showModal()
     }
     else{
-        Error("GOT A ERROR OF INVALID TYPE")
+        throw new Error("GOT A ERROR OF INVALID TYPE")
     }
 }
 
-function search_display(characters){
+// add to dev journal
+function search_display(data){
+    const characters = Array.isArray(data) ? data : [data];
     let character_log = document.getElementById('character_log');
-    for(let index = 0; index < characters.length; index++){
-        let character = document.createElement('li');
-        character.textContent = 
-        `Character ID: ${characters[0]},
-         Name: ${characters[1]}, 
-         Class: ${characters[2]}, 
-         Combat Style: ${characters[3]}, 
-         Abilities: ${characters[4]},
-         Playability Status: ${characters[5]}, 
-         Lore:${characters[6]}
-        `
-        character_log.appendChild(character);
+    for (const c of characters){
+        let li = document.createElement('li');
+        li.innerHTML = `Character ID: ${c.id},<br> Name: ${c.name},<br> Class: ${c.char_class},<br> Combat Style: ${c.combat_style},<br> Abilities: ${c.abilities},<br> Playability Status: ${c.playability_status},<br> Lore: ${c.lore}<br>`;
+        
+        let edit_button = document.createElement('button');
+        edit_button.textContent = 'Edit';
+        edit_button.onclick = () => ModifyCharacter(c);
+        li.appendChild(edit_button);
+        
+        character_log.appendChild(li);
     }
 }
 
@@ -126,12 +178,13 @@ async function SearchCharacters(name){
             response = await backend_helper('http://127.0.0.1:5000/character',params);
         }
         else{ 
-            response = await backend_helper(`http://127.0.0.1:5000/character/${name}`,params);
+            response = await backend_helper(`http://127.0.0.1:5000/character/${encodeURIComponent(name)}`,params);
             }
-        search_display(response);
+        search_display(response.data);
     }
     catch(error){
         console.error('Search failed:', error);
+        document.getElementById('response_text').textContent = `ERROR!: ${error}`;
     }
     
 }
@@ -141,22 +194,21 @@ function CreateCharacter(){
    // construct a form that has a box for each character attribute. 
 }
 
-// char info is an array of 5 items
+// char info is an array of 6 items
 async function create_character_call_back(char_info){
     let valid = true;
     for (let index = 0; index < char_info.length; index++){
-        if (char_info[index] =''){
+        if (char_info[index] ==''){
             // this is an error for creation but not modification
             submit_error_to_user("empty value in creation");
             valid = false;
         }
     }
     
-    if (valid = true){
-        let params = { method: 'POST', headers: { "Content-Type": "application/json"}, body: JSON.stringify(`${message}`)};
+    if (valid == true){
+        let params = { method: 'POST', headers: { "Content-Type": "application/json"}, body: JSON.stringify(char_info)};
         try{
-            let response_json = await backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
-            let response = response_json.json();
+            let response = await backend_helper(`http://127.0.0.1:5000/character/${encodeURIComponent(char_info[0])}`,params);
             if (response.status != 201){
                 throw new Error(`HTTP error! Status: ${response.status} instead of 201!`)
               
@@ -166,59 +218,74 @@ async function create_character_call_back(char_info){
             }
         }
         catch(error){
-            document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload: ${error.message}`;
+            document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload due to: ${error}`;
         }
     }   
-}
-
-function ModifyCharacter(){
-    generate_form("Modification");
+    SearchCharacters("");
 
 }
 
-// char info is an array of 5 items
+function ModifyCharacter(char){
+    generate_form("Modification",char);
+}
+
+// char info is an array of 6 items
 async function modify_character_call_back(char_info){
     let path = 'PUT'
     for (let index = 0; index < char_info.length; index++){
-        if (char_info[index] =''){
+        if (char_info[index] ==''){
             char_info[index] = "N/A"
             path = "PATCH"
         }
     }
-    let params = { method: `${path}`, headers: { "Content-Type": "application/json"}, body: JSON.stringify(`${message}`)};
+    const body = {
+    char_class: char_info[1], combat_style: char_info[2],
+    abilities: char_info[3], playability_status: char_info[4], lore: char_info[5]
+    };
+    let params = { method: path, headers: {"Content-Type": "application/json"}, body: JSON.stringify(body) };
     try{
-        let response_json = await backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
-        let response = response_json.json();
-        if (response.status != 201){
-            throw new Error(`HTTP error! Status: ${response.status} instead of 201!`)
+        let response = await backend_helper(`http://127.0.0.1:5000/character/${encodeURIComponent(char_info[0])}`,params);
+        if (response.status != 204){
+            throw new Error(`HTTP error! Status: ${response.status} instead of 204!`)
         }
         else{ 
-            document.getElementById(response_text).textContent = "Success! Your character has been uploaded"
+            document.getElementById('response_text').textContent = "Success! Your character has been uploaded"
         }
     }
     catch(error){
-        document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload: ${error.message}`;
+        document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload due to: ${error}`;
 
     }
+    SearchCharacters("");
 }
 
-function DeleteCharacter(){
-    generate_form("Deletion");
+function DeleteCharacter(name){
+    const dialog = document.getElementById('delete_confirmation');
+    dialog.returnValue = '';   // clear any answer left over from last time
+
+    dialog.addEventListener('close', () => {
+        if (dialog.returnValue === 'confirm') {
+            delete_character_call_back(name);
+        }
+    }, { once: true });
+    document.getElementById('delete_target').textContent = `Character: ${name}`;
+    dialog.showModal();
 }
 
 async function delete_character_call_back(name){
     let params = {method: 'DELETE'};
     try {
-        let response_json = await backend_helper(`http://127.0.0.1:5000/character/${char_info[1]}`,params);
-        let response = response_json.json();
-        if (response[1] != 204){
+        let response = await backend_helper(`http://127.0.0.1:5000/character/${encodeURIComponent(name)}`,params);
+        if (response.status != 204){
             throw new Error(`HTTP error! Status: ${response.status} instead of 204!`)
         }
         else{ 
-            document.getElementById(response_text).textContent = "Success! Your character has been deleted"
+            document.getElementById('response_text').textContent = "Success! Your character has been deleted"
         }
     }
     catch(error){
-        document.getElementById('response_text').textContent = `ERROR! Your character has failed to upload: ${error.message}`;
+        document.getElementById('response_text').textContent = `ERROR! Your character has failed to delete due to: ${error}`;
     }
+    SearchCharacters("");
+
 }

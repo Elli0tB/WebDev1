@@ -3,11 +3,12 @@ from pathlib import Path
 
 SCHEMA_PATH = Path(__file__).parent / "schema.sql"
 class DataBaseLoader:
-    def __init__(self, path="app.db"):
+    def __init__(self, path="app.db", seed=False):
         self.connection = sqlite3.connect(path)
         self.connection.row_factory = sqlite3.Row
         self._create_tables()
-        self._seed()
+        if seed:
+            self._seed()
 
     def _create_tables(self):
         schema = SCHEMA_PATH.read_text()

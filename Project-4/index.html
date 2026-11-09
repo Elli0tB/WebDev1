@@ -1,4 +1,8 @@
-<head>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>D&D Character Archive!</title>
     <link rel="stylesheet" href="style.css">
     <script src="scripter.js" defer></script>
@@ -25,22 +29,15 @@
     <p>Here you can create modify or delete a character!</p>
     <label  id = "create_character_lable" for="create_character_button">Create A New Character!:</label>
     <button id = "create_character_button" onclick=" (() => {
-                const message = document.getElementById('create_character_txt').value;
-                CreateCharacter(message)
-                document.getElementById('create_character_txt').value = ''
+                CreateCharacter()
             })()">Create</button>
-    <label id = "modify_character_lable" for = "modify_character_button ">Modify An Existing Character:</label>
-    <button id = "modify_character_button" onclick=" (() => {
-                const message = document.getElementById('modify_character_txt').value;
-                ModifyCharacter(message)
-                document.getElementById('modify_character_txt').value = ''
-            })()">Modify</button>
-    <label id = "delete_character_lable" for = "delete_character_button ">Delete An Existing Character:</label>
+    <label id = "delete_character_lable" for = "delete_character_input">Delete An Existing Character:</label>
+    <input type="text" id="delete_character_input" placeholder="Character Name">
     <button id = "delete_character_button" onclick=" (() => {
-                const message = document.getElementById('delete_character_txt').value;
+                const message = document.getElementById('delete_character_input').value;
                 DeleteCharacter(message)
-                document.getElementById('delete_character_txt').value = ''
-            })()">Modify</button>
+                document.getElementById('delete_character_input').value = ''
+            })()">Delete</button>
     <div id = "form_box">
         
     </div>
@@ -54,13 +51,22 @@
             <button value="confirm">Exit</button>
         </form>
     </dialog>
-     <dialog id="invalid_input">
+    <dialog id="invalid_input">
         <h2>WARNING ERROR FOUND</h2>
         <p>You have invalid input in a form invalid inputs are: N/A</p>
         <form method="dialog">
             <button value="confirm">Exit</button>
         </form>
     </dialog>
+    <dialog id="delete_confirmation">
+        <h2>WARNING DELETION CANNOT BE UNDONE</h2>
+        <p id="delete_target"></p>
+        <form method="dialog">
+            <button value="confirm">confirm</button>
+            <button value="cancel">cancel</button>
+        </form>
+    </dialog>
 
 
 </body>
+</html>

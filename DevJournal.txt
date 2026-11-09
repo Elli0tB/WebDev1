@@ -317,6 +317,58 @@ Project 4:
     Okay so the back end is set up with two charactes to fill in for the base data, ill add more later.
     now lets turn our attention to 
 
+    Okay here are some of the intrsting things i learned:
+
+        JS
+        Async: this is still a litle wierd to me with me coming from laungagues that done ever use a promise its jsut a wait until done thats baked in.
+            but I think I understand this more now just syntacticly at least, I dont like that you need to make all the upstream code also async but i understnd why it works this way
+
+        better structer(helpers):
+            for this i realllly needed to keep things simple and even now i could do better, for this i tried to work from the top down with the ideas on how the code works
+            while i left the actual implimentaiton for later so that it stayed simple and got more complex with each helper, and the call_back functions were a big part of this too
+            since those let me break from async code to static code that dosent wait for anything. I dont know how usefull that is, but it was neat
+
+        delete and how to wait on the diolaog and pause code:
+            okay like i said before the eventlistener is just crazy good, which is why I didnt want to use it, and because of the overhead it makes.
+            however it was huge for the confermation on the delete button. With the dialog box being a rather complex item.
+            Also I know what modal means now, its when the window or item that is modal becomes the only interactable thing on screen.
+            this is nice for important items that need a response, or want a garuenty of confermation
+
+        encodeURIComponent: this is new for me and i didnt need it last time. 
+            this is so that a name in my case wont break the url if it has a / ? or some other character that use used to tell the browser or endpoint something 
+            by well encoding it to be something else untill it needs to be read.
+
+        the br tag and how to use it with innerHTML to just slip html in line text 
+        replaceChildren() with no input is so nice to just clean everything
+
+        BACKEND & DB 
+            Most of this was just learning about sql lite and how a cursor works. 
+            A lot of commands needed to be looked up and i had to play with it for a bit to understand it
+            and the need to pass eveything as a tuple in the commands is intreting but if it lets me stop sql injections then im happy
+
+    WOAH A LOT OF COOL CSS:
+        okay so i jsut wanted to see what css could do and I was a bit crunched for time on the css(totally not becasue i put it off...)
+        so I wanted AI to help me out here and wow there was a lot of things i didnt event know you could do. 
+            :root acting as a global area for vars is amazing making it a lot easier to have consistant color without needing to copy over and over again
+
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+
+        button:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        this code awnsers a lot of questions i had, like how to make a button look like it hovers
+        how to make the mouse into the hand pointer, 
+        and aniumate it and that : make a sudo class for specific states of the objects!
+        and the @media is neat it lets us apply a rule based on a condition of the device so for us we use the screens max witdth 
+        to change how we format things to look nicer, its compleatly useless for this project but it is something I should know incase it is needed for later.
+        and you can have a readonly with css which is intresting.
+
+
 Day 12(10/27/26):
     complexity is the enemy of security, this can be for two big reasons.
     one it makes it harder to look through what you have to find the bugs and security issues you have. It will also increase your attack surface. 
