@@ -368,7 +368,6 @@ Project 4:
         to change how we format things to look nicer, its compleatly useless for this project but it is something I should know incase it is needed for later.
         and you can have a readonly with css which is intresting.
 
-
 Day 12(10/27/26):
     complexity is the enemy of security, this can be for two big reasons.
     one it makes it harder to look through what you have to find the bugs and security issues you have. It will also increase your attack surface. 
@@ -410,6 +409,17 @@ Day 13(11/03/26):
         what we tend to do when we make code is start with one thing and then make it and move on. 
         what we dont do whith our code is go back and see how we could make this better 
         doing this will solve the jerry problem and it makes it so much simpiler to read 
+
+Day 14(11/10/26):
+    A good practice is to not give the database ID to the user or front end
+    this will reduce the easy of threats from knowing the layout of your database and attacking it.
+    eveything any libary, framework or anything, will have a cost of some kind
+
+    Two way encryption: 
+        this lets you encrypt something into nonsense and back into useable data 
+
+    one way encryption:
+        this lets you encrypt something into nonsense and it is near impossible to undo the encryption
 
 
 Final Presentation Revew: 
