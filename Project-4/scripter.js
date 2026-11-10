@@ -289,3 +289,4 @@ async function delete_character_call_back(name){
     SearchCharacters("");
 
 }
+

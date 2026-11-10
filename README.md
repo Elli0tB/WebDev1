@@ -2,8 +2,7 @@
 This is my Web Application Development 1 Class 
 Durning this class I will be storeing notes, intresting topics, and usefull tips, and project notes I learn in the DevJournal file.
 
-
-# D&D Character Archive md
+# D&D Character Archive
 
 A small web app for storing, viewing, modifying, and deleting Dungeons & Dragons characters. A Flask API backed by SQLite serves the data, and a JavaScript client talks to it with Ajax requests.
 

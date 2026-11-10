@@ -411,6 +411,16 @@ Day 13(11/03/26):
         what we dont do whith our code is go back and see how we could make this better 
         doing this will solve the jerry problem and it makes it so much simpiler to read 
 
+Day 14(11/10/26):
+    A good practice is to not give the database ID to the user or front end
+    this will reduce the easy of threats from knowing the layout of your database and attacking it.
+    eveything any libary, framework or anything, will have a cost of some kind
+
+    Two way encryption: 
+        this lets you encrypt something into nonsense and back into useable data 
+
+    one way encryption:
+        this lets you encrypt something into nonsense and it is near impossible to undo the encryption
 
 Final Presentation Revew: 
     Okay here is eveything that I really want to explain during the final for this lets avoid anything that I went over in the midterm already. 
