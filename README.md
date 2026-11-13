@@ -2,7 +2,7 @@
 This is my Web Application Development 1 Class 
 Durning this class I will be storeing notes, intresting topics, and usefull tips, and project notes I learn in the DevJournal file.
 
-# D&D Character Archive
+# D&D Character Archive Project-4 MD 
 
 A small web app for storing, viewing, modifying, and deleting Dungeons & Dragons characters. A Flask API backed by SQLite serves the data, and a JavaScript client talks to it with Ajax requests.
 
@@ -59,3 +59,7 @@ CORS is enabled server-wide, including `OPTIONS` preflight requests.
 1. Install the dependencies: `pip install flask flask-cors`
 2. Start the server: `python backend.py`
 3. Open `index.html` in a browser. The server runs at `http://127.0.0.1:5000`.
+
+
+# D&D Character Archive Project-5 MD 
+make sure to include that your own .env with a secret key needs to be stored. 

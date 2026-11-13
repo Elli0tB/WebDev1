@@ -2,3 +2,4 @@
 settings.json
 app.db
 backend_interface.cpython-314.pyc
+.env

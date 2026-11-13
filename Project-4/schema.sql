@@ -7,3 +7,11 @@ CREATE TABLE IF NOT EXISTS characters (
     playability_status TEXT NOT NULL,
     lore TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    firstName TEXT NOT NULL, 
+    lastName TEXT NOT NULL, 
+    email TEXT NOT NULL UNIQUE, 
+    password TEXT NOT NULL,
+    id INTEGER
+);

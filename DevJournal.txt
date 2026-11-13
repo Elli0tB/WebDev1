@@ -421,6 +421,19 @@ Day 14(11/10/26):
     one way encryption:
         this lets you encrypt something into nonsense and it is near impossible to undo the encryption
 
+day 15():
+    you can use form acctions to snag the page needed from the back end
+    also we will need a session id to make sure the user is logged in and the session isnt invalid
+    you can even store data on the browser so you can keep the memory from the past page for the new page. 
+
+Project-5: 
+    Part 1:
+        Okay so what needs to happen? well we need to be able to take a user and validate them, reject them, or creat them. 
+        Lets start on the back end since that is the center point for eveything. 
+        the interface wont change much I would like to make a defult user seed though, but we will see.
+        for this we need a login endpoint and a singup endpoint so we can validate and create.
+        we also have a few helpers to make things just a bit more readable. Next up is a HTML pages!
+    
 
 Final Presentation Revew: 
     Okay here is eveything that I really want to explain during the final for this lets avoid anything that I went over in the midterm already. 

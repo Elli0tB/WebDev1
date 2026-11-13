@@ -1,4 +1,5 @@
 import sqlite3 
+import hashlib
 from pathlib import Path
 
 SCHEMA_PATH = Path(__file__).parent / "schema.sql"
@@ -40,6 +41,21 @@ class DataBaseLoader:
                VALUES (?, ?, ?, ?, ?, ?)""",
             default_characters,
         )
+        default_users = [
+            (
+                "Elliot",
+                "Bangerter",
+                "elliot.bangerter@gmail.com",
+                "fc152261b4e7de27bc5d803728ead2e6c0d66a76c96688440333317686bae872",
+                "0",
+            )]
+        self.connection.executemany(
+            """INSERT OR IGNORE INTO users
+                (firstName, lastNmae, email, password, id, )
+                VALUES (?, ?, ?, ?, ?)""",
+            default_users,
+        )
+        # make the defult users 
         self.connection.commit()
 
     def execute(self, sql, params=()):
