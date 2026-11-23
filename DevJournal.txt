@@ -421,7 +421,7 @@ Day 14(11/10/26):
     one way encryption:
         this lets you encrypt something into nonsense and it is near impossible to undo the encryption
 
-day 15():
+Day 15():
     you can use form acctions to snag the page needed from the back end
     also we will need a session id to make sure the user is logged in and the session isnt invalid
     you can even store data on the browser so you can keep the memory from the past page for the new page. 
@@ -433,7 +433,46 @@ Project-5:
         the interface wont change much I would like to make a defult user seed though, but we will see.
         for this we need a login endpoint and a singup endpoint so we can validate and create.
         we also have a few helpers to make things just a bit more readable. Next up is a HTML pages!
+        oop i forgot to encrypt and decrypt the password
+
+    Part 2: 
+
+        
+        some cool things:
+        HMAC 
+        HASH LIB
     
+Day 16(11/17/26):
+    what is same site in a packet header: 
+        this is a cookie attruibute that has to modes strict and lax 
+        strict means it can only be in a first party context which is just saying that the site for the cookie must be the same as the site you are on
+        lax means cookies can move easier between site on call while strict needs explicit hand off which is rare. 
+
+    how do cookies work: 
+        they are very small txt files that are stored locally on your machine to remember choices and information about your activity.
+        To get the cookie the server hoseting the webpage needs to send it to us, then we store it loaclly and whenever we return to that site we can use the cookie by putting it in our header.
+        which tells the site some important personal info to help restore the site to our desierd state.
+
+    what should be sotred in a session: 
+        anything that is small, nonsensitive, and context. anythiong sensative like passwords, personal data PII, or 
+        sessions are also sotred on the server side and is secure
+
+    cookies are unsecure and are client side
+
+
+    
+    what is a JWT: 
+        JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties
+        as a JSON object. This information can be verified and trusted because it is digitally signed. 
+        JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA
+    what does set cookie do: 
+        it is a response header, this is the methoed of sending a cookie from the server to the user. 
+        this header instructs the client to store a name-value pair along with optional attributes controlling the 
+        cookie's scope, lifetime, and security properties. Each Set-Cookie header sets exactly one cookie.
+        this is a please do this thing browser but it dosent have to. 
+
+
+
 
 Final Presentation Revew: 
     Okay here is eveything that I really want to explain during the final for this lets avoid anything that I went over in the midterm already. 

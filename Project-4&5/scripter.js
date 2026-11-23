@@ -1,11 +1,15 @@
 async function backend_helper(endpoint, options) {
-    const response = await fetch(endpoint, options);
+    const response = await fetch(endpoint, { credentials: 'include', ...options });
+    if (response.status === 401 && !window.location.pathname.endsWith("login.html")) {
+        window.location.href = "login.html";
+    }
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = response.status === 204 ? null : await response.json();
     return { status: response.status, data: data };
 }
+
 // id, name, char_class, combat_style, abilities, playability_status, lore
 function generate_form(form_type, character = null){
     clean_form()
@@ -155,16 +159,25 @@ function submit_error_to_user(Error_type){
 // add to dev journal
 function search_display(data){
     const characters = Array.isArray(data) ? data : [data];
-    let character_log = document.getElementById('character_log');
+    const character_log = document.getElementById('character_log');
+    const fields = [["Character ID", "id"], ["Name", "name"], ["Class", "char_class"],
+                    ["Combat Style", "combat_style"], ["Abilities", "abilities"],
+                    ["Playability Status", "playability_status"], ["Lore", "lore"]];
     for (const c of characters){
-        let li = document.createElement('li');
-        li.innerHTML = `Character ID: ${c.id},<br> Name: ${c.name},<br> Class: ${c.char_class},<br> Combat Style: ${c.combat_style},<br> Abilities: ${c.abilities},<br> Playability Status: ${c.playability_status},<br> Lore: ${c.lore}<br>`;
-        
-        let edit_button = document.createElement('button');
+        const li = document.createElement('li');
+        for (const [label, key] of fields){
+            li.append(`${label}: ${c[key]}`, document.createElement('br'));  // strings become plain text
+        }
+        const edit_button = document.createElement('button');
         edit_button.textContent = 'Edit';
         edit_button.onclick = () => ModifyCharacter(c);
         li.appendChild(edit_button);
-        
+
+        const delete_button = document.createElement('button');
+        delete_button.textContent = 'Delete';
+        delete_button.onclick = () => DeleteCharacter(c.name);
+        li.appendChild(delete_button);
+
         character_log.appendChild(li);
     }
 }
@@ -206,7 +219,11 @@ async function create_character_call_back(char_info){
     }
     
     if (valid == true){
-        let params = { method: 'POST', headers: { "Content-Type": "application/json"}, body: JSON.stringify(char_info)};
+        const body = {
+            char_class: char_info[1], combat_style: char_info[2],
+            abilities: char_info[3], playability_status: char_info[4], lore: char_info[5]
+        };
+        let params = { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
         try{
             let response = await backend_helper(`http://127.0.0.1:5000/character/${encodeURIComponent(char_info[0])}`,params);
             if (response.status != 201){

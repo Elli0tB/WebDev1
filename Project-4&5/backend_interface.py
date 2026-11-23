@@ -51,7 +51,7 @@ class DataBaseLoader:
             )]
         self.connection.executemany(
             """INSERT OR IGNORE INTO users
-                (firstName, lastNmae, email, password, id, )
+                (firstName, lastName, email, password, id)
                 VALUES (?, ?, ?, ?, ?)""",
             default_users,
         )

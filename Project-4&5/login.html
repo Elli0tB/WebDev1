@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>D&D Character Archive!</title>
+    <link rel="stylesheet" href="userStyle.css">
+    <script src="userScripter.js" defer></script>
+</head>
+
+<body>
+    <h1> Welcome to the D&D Character Archive!</h1>
+    <img src="DnD-Symbol.png" alt="A image of the dnd logo"> 
+    <p> You can sign in or create an account below</p>
+    <button id = "log_in_button" onclick=" (() => {
+                logIn()
+            })()">Log In</button>
+    <button id = "create_account_button" onclick=" (() => {
+                createAccount()
+            })()">Create An Account</button>
+
+    <dialog id="sign_in_log_in_form">
+        <h2 id = "form_header">Log In!</h2>
+
+        <label id = "first_name_label" for = "first_name_text">First Name:</label>
+        <input type="text" id="first_name_text" placeholder="First Name"> <br>
+
+        <label id = "last_name_label" for = "last_name_text">Last Name:</label>
+        <input type="text" id="last_name_text" placeholder="Last Name"> <br>
+
+        <label id = "email_lable" for = "email_text">Email:</label>
+        <input type="text" id="email_text" placeholder="Email"> <br>
+
+        <label id = "password_lable" for = "password_text">Password:</label>
+        <input type="password" id="password_text" placeholder="Password"> <br>
+
+        <label id = "confirm_password_lable" for = "confirm_password_text">Confirm Password:</label>
+        <input type="password" id="confirm_password_text" placeholder="Password"> <br>
+        <div id = "error_msg_holder"></div>
+        
+        <button type="button" onclick="readForm()">Submit</button>
+        <button type="button" onclick="(() => {
+            let form = document.getElementById('sign_in_log_in_form');
+            form.close();
+        })()">Cancel</button>
+        
+    </dialog>
+</body>
+</html>

@@ -13,7 +13,8 @@ def get_db():
     return instance.db
 # set up back end server 
 backend = Flask(__name__)
-CORS(backend)
+CORS(backend, supports_credentials=True,
+     origins=["http://127.0.0.1:5500", "http://localhost:5500"])# whatever origin serves your pages
 load_dotenv() # reads .env and adds its values to os.environ
 
 backend.config.update(
@@ -23,9 +24,6 @@ backend.config.update(
     SESSION_COOKIE_SAMESITE="Lax",             # CSRF mitigation
     PERMANENT_SESSION_LIFETIME=timedelta(hours=2),
 )
-backend.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=2)
-
-
 
 #---User Endpoints---
 @backend.route("/")
@@ -34,56 +32,60 @@ def home():
         return render_template("dashboard.html")
     return render_template("landing.html")
 
+
+
 #login page
-@backend.route('/login', methods=['GET'])
-def get_user():  # this needs to verify a user and send them to the homepage!
-    data_base = get_db()
-    requested_user = request.get_json()
-    user = data_base.query("SELECT * FROM users WHERE email = ?", (requested_user[2],))
-    if not user:
-        return jsonify({"valid_account": False}), 404
-    if check_credentials(user,data_base):
-        session.clear()               # rotate on login
-        session.permanent = True      # opt in to expiry
-        session["session_id"] = get_user_ID(user[2],data_base)
-        return redirect(url_for("dashboard")) 
-    return jsonify({"valid_password": False}), 401
+@backend.route('/login', methods=['POST'])
+def login():
+    db = get_db()
+    data = request.get_json() or {}
+    email, password = data.get("email"), data.get("password")
+    if not email or not password:
+        return jsonify({"error": "email and password required"}), 400
 
-def check_credentials(user,):
-    requested_user = request.get_json()
-    salt, expected = user[3][:16], user[3][16:]
-    attempt = hashlib.pbkdf2_hmac("sha256", requested_user[3].encode("utf-8"), salt, 600_000)
-    succes = hmac.compare_digest(attempt, expected)  # constant-time compare
-    if not succes:
-            return False
-    return True
+    rows = db.query("SELECT * FROM users WHERE email = ?", (email,))
+    if not rows or not check_credentials(rows[0], password):
+        return jsonify({"error": "invalid credentials"}), 401
 
+    session.clear()
+    session.permanent = True
+    session["user"] = rows[0]["id"]
+    return jsonify({"ok": True}), 200
+
+def check_credentials(user, password):
+    stored = bytes.fromhex(user["password"])
+    salt, expected = stored[:16], stored[16:]
+    attempt = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 600_000)
+    return hmac.compare_digest(attempt, expected)
+   
 def get_user_ID(email,db):
     user = db.query("SELECT * FROM users WHERE email = ?", (email,))
     return user[4]
 
 @backend.route('/signup', methods=['POST'])
 def post_user():
-    user = request.get_json()
+    data = request.get_json() or {}
     db = get_db()
-    # see if user already exists emails MUST BE UNQIE 
-    if db.query("SELECT 1 FROM users WHERE email = ?", (user[2],)):
-        return "ERROR: USER ALL READY EXISTS", 409
-    #encrypt the password
-    user_pswrd = user[3].encode("utf-8")
+    if not all(k in data for k in ("firstName", "lastName", "email", "password")):
+        return jsonify({"error": "missing fields"}), 400
+    if db.query("SELECT 1 FROM users WHERE email = ?", (data["email"],)):
+        return jsonify({"error": "user already exists"}), 409
+
     salt = os.urandom(16)
-    key = hashlib.pbkdf2_hmac("sha256", user_pswrd, salt, 600_000)
-    storedVal = salt + key
-    encrypted_pswrd = storedVal.hex()
-    user[3] = encrypted_pswrd
+    key = hashlib.pbkdf2_hmac("sha256", data["password"].encode("utf-8"), salt, 600_000)
+    hashed = (salt + key).hex()
     user_id = makeUID(db)
-    
-    #store the user
-    db.execute("""
-        INSERT INTO users (firstName, lastName, email, password, id)
-        VALUES (?, ?, ?, ?, ?)""", (user[:4],user_id))
-    # return the user object without the pswrd hash and UID 
-    return json.dumps(user[:3]), 201
+
+    db.execute(
+        "INSERT INTO users (firstName, lastName, email, password, id) VALUES (?, ?, ?, ?, ?)",
+        (data["firstName"], data["lastName"], data["email"], hashed, user_id),
+    )
+    session.clear()
+    session.permanent = True
+    session["user"] = user_id
+    return jsonify({"firstName": data["firstName"],
+                    "lastName": data["lastName"],
+                    "email": data["email"]}), 201
 
 def makeUID(db):
     #we need to make a large amount of id's so lets treat id's as the following 
@@ -99,11 +101,15 @@ def makeUID(db):
 
 @backend.route("/dashboard")
 def dashboard():
+    if "user" not in session:
+        return jsonify({"error": "login required"}), 401
     return render_template("dashboard.html")
 
 # --- CRUD: LIST ---
 @backend.route('/character', methods=['GET'])
 def char_ID_ALL_handeler():
+    if "user" not in session:
+        return jsonify({"error": "login required"}), 401
     data_base = get_db()
     if request.method == 'GET':
         return get_all_char(data_base)
@@ -117,6 +123,8 @@ def get_all_char(db):
 
 @backend.route('/character/<character_name>', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH' ])
 def char_ID_handeler(character_name):
+    if "user" not in session:
+        return jsonify({"error": "login required"}), 401
     data_base = get_db()
     if request.method == 'GET':
         return get_char(character_name,data_base)
@@ -139,13 +147,16 @@ def get_char(character_name,db):
 
 # ---CRUD: Create ---
 def post_char(character_name, db):
-    char = request.json
+    char = request.get_json() or {}
     if db.query("SELECT 1 FROM characters WHERE name = ?", (character_name,)):
-        return "ERROR: NAME MATCHED MUST USE PUT", 409
-    db.execute("""
-        INSERT INTO characters (name, char_class, combat_style, abilities, playability_status, lore)
-        VALUES (?, ?, ?, ?, ?, ?)""", tuple(char[:6]))
-    return json.dumps(char), 201
+        return jsonify({"error": "name already exists"}), 409
+    db.execute(
+        """INSERT INTO characters (name, char_class, combat_style, abilities, playability_status, lore)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (character_name, char.get("char_class"), char.get("combat_style"),
+         char.get("abilities"), char.get("playability_status"), char.get("lore")),
+    )
+    return jsonify(char), 201
 
 # -- CRUD: Delete --
 def delete_char(character_name,db):
@@ -160,7 +171,7 @@ def delete_char(character_name,db):
 COLUMNS = ["char_class", "combat_style", "abilities", "playability_status", "lore"]
 def patch_char(character_name,db):
     # HAS TO HAVE A MATCHING NAME. 
-    char = request.json
+    char = request.get_json(silent=True) or {}
     match = db.query("SELECT * FROM characters WHERE name == ?", (character_name,))
     if not match:
         print("ERROR: NAME NOT FOUND ")
@@ -191,5 +202,5 @@ def close_db(exc):
 if __name__ == "__main__":
     with backend_interface.DataBaseLoader(seed=True):
         pass
-    backend.run()
+    backend.run(port=5001)
 
